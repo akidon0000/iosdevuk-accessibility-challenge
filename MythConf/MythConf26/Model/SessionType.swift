@@ -43,7 +43,7 @@ enum SessionType: Codable {
         case .talk:          return .blue
         case .panel:         return .purple
         case .workshop:      return .blue
-        case .lightningtalks: return .yellow
+        case .lightningtalks: return Color("accentYellow")
         case .teaBreak:      return .green
         case .lunch:         return .mint
         case .dinner:        return .pink
