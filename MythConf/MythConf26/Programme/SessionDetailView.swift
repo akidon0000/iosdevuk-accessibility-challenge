@@ -24,7 +24,7 @@ struct SessionDetailView: View {
                     }
                 }
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .secondaryTextStyle()
                 .padding(.bottom)
 
                 // Speakers

@@ -33,7 +33,7 @@ struct LocationDetailView: View {
                 .padding(.horizontal)
 
                 Text(location.placeDescription)
-                    .foregroundStyle(.secondary)
+                    .secondaryTextStyle()
                     .padding()
             }
         }

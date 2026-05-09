@@ -17,7 +17,7 @@ struct LocationsView: View {
                             .bold()
                         Text(location.placeDescription)
                             .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                            .secondaryTextStyle()
                             .lineLimit(2)
                     }
                 }

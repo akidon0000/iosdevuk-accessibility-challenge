@@ -15,7 +15,6 @@ struct MythConf: App {
         WindowGroup {
             HomeView()
                 .environment(viewModel)
-                .foregroundStyle(.primary, .primary.opacity(0.7), .primary.opacity(0.45))
         }
     }
 }

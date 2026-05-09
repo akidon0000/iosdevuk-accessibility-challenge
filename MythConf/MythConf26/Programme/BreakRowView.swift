@@ -21,7 +21,7 @@ struct BreakRowView: View {
                 if let talkID = session.contentIDs.first {
                     Text(viewModel.locationNameFrom(talkID: talkID))
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .secondaryTextStyle()
                 }
             }
 

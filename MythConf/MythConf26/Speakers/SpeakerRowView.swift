@@ -22,7 +22,7 @@ struct SpeakerRowView: View {
                 if !speaker.speakerInfo.isEmpty {
                     Text(speaker.speakerInfo)
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .secondaryTextStyle()
                         .lineLimit(2)
                 }
             }

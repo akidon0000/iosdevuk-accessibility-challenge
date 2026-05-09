@@ -20,7 +20,7 @@ struct TalkSummaryView: View {
                 Label(viewModel.locationNameFrom(talkID: talkID), systemImage: "mappin")
             }
             .font(.caption)
-            .foregroundStyle(.secondary)
+            .secondaryTextStyle()
         }
         .padding(.vertical, 4)
     }

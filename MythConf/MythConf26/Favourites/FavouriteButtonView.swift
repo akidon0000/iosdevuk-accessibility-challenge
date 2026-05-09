@@ -19,7 +19,7 @@ struct FavouriteButtonView: View {
             }
         } label: {
             Image(systemName: viewModel.isFavourite(talk: talk) ? "star.fill" : "star")
-                .foregroundStyle(viewModel.isFavourite(talk: talk) ? .yellow : .secondary)
+                .foregroundStyle(viewModel.isFavourite(talk: talk) ? Color.yellow : Color.textSecondary)
         }
         .accessibilityLabel(viewModel.isFavourite(talk: talk) ? "Remove from favourites" : "Add to favourites")
     }
