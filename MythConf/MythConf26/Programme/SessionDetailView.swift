@@ -16,9 +16,9 @@ struct SessionDetailView: View {
         ScrollView {
             VStack(alignment: .leading) {
                 // Time and location
-                HStack {
+                AStack(vAlignment: .leading) {
                     Label(session.timeRange, systemImage: "clock")
-                    Spacer()
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     NavigationLink(value: LocationNavigationID(value: talk.locationID)) {
                         Label(viewModel.locationNameFrom(locationID: talk.locationID), systemImage: "mappin")
                     }

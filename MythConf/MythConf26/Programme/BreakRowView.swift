@@ -11,7 +11,7 @@ struct BreakRowView: View {
     let session: Session
 
     var body: some View {
-        HStack {
+        AStack(vAlignment: .leading) {
             TimeColumnView(startTime: session.startTimeText, endTime: session.endTimeText)
 
             VStack(alignment: .leading) {
@@ -24,8 +24,7 @@ struct BreakRowView: View {
                         .secondaryTextStyle()
                 }
             }
-
-            Spacer()
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding()
         .frame(maxWidth: .infinity)

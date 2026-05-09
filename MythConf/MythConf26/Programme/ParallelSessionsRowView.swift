@@ -10,10 +10,10 @@ struct ParallelSessionsRowView: View {
     let session: Session
 
     var body: some View {
-        HStack(alignment: .top) {
+        AStack(hAlignment: .top, vAlignment: .leading, vSpacing: 8) {
             TimeColumnView(startTime: session.startTimeText, endTime: session.endTimeText)
 
-            HStack(alignment: .top) {
+            AStack(hAlignment: .top, vAlignment: .leading, vSpacing: 8) {
                 ForEach(session.contentIDs, id: \.self) { talkID in
                     ParallelTalkCardView(talkID: talkID, session: session)
                 }

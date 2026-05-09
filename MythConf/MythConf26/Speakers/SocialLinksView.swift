@@ -10,7 +10,7 @@ struct SocialLinksView: View {
     let social: [SocialItem]
 
     var body: some View {
-        HStack {
+        AStack(vAlignment: .leading) {
             ForEach(social, id: \.self) { item in
                 if let url = URL(string: item.socialLink) {
                     Link(destination: url) {

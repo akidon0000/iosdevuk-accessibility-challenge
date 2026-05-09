@@ -15,7 +15,7 @@ struct SpeakerDetailView: View {
         ScrollView {
             VStack(alignment: .leading) {
                 // Header
-                HStack(alignment: .top) {
+                AStack(hAlignment: .top, vAlignment: .leading) {
                     SpeakerPhotoView(speaker: speaker, size: 80)
 
                     VStack(alignment: .leading) {
@@ -26,8 +26,7 @@ struct SpeakerDetailView: View {
                             SocialLinksView(social: speaker.social)
                         }
                     }
-
-                    Spacer()
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
                 Divider()

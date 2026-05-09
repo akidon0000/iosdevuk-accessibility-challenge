@@ -15,7 +15,7 @@ struct TalkSummaryView: View {
         VStack(alignment: .leading) {
             Text(viewModel.talkTitleFrom(talkID: talkID))
                 .bold()
-            HStack {
+            AStack(vAlignment: .leading) {
                 Label(session.timeRange, systemImage: "clock")
                 Label(viewModel.locationNameFrom(talkID: talkID), systemImage: "mappin")
             }

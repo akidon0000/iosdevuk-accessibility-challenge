@@ -13,7 +13,7 @@ struct SpeakerRowView: View {
     private var speaker: Speaker { viewModel.speakerFrom(speakerID: speakerID) }
 
     var body: some View {
-        HStack(alignment: .top) {
+        AStack(hAlignment: .top, vAlignment: .leading) {
             SpeakerPhotoView(speaker: speaker, size: 56)
 
             VStack(alignment: .leading) {
@@ -23,7 +23,7 @@ struct SpeakerRowView: View {
                     Text(speaker.speakerInfo)
                         .font(.subheadline)
                         .secondaryTextStyle()
-                        .lineLimit(2)
+                        .a11yLineLimit(2)
                 }
             }
         }
