@@ -26,5 +26,6 @@ struct SpeakerPhotoView: View {
             .scaledToFill()
             .frame(width: scaledSize, height: scaledSize)
             .clipShape(.circle)
+            .accessibilityHidden(true)
     }
 }

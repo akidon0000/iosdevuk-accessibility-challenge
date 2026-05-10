@@ -39,6 +39,10 @@ struct SessionDetailView: View {
                     .padding(.vertical)
 
                 // Abstract
+                Text("About this talk")
+                    .accessibilityAddTraits(.isHeader)
+                    .frame(width: 0, height: 0)
+                    .clipped()
                 Text(talk.talkDescription)
             }
             .padding()

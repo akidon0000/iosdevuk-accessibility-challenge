@@ -23,5 +23,11 @@ struct TalkSummaryView: View {
             .secondaryTextStyle()
         }
         .padding(.vertical, 4)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(accessibilityDescription)
+    }
+
+    private var accessibilityDescription: String {
+        "\(viewModel.talkTitleFrom(talkID: talkID)), from \(session.startTimeText) to \(session.endTimeText), at \(viewModel.locationNameFrom(talkID: talkID))"
     }
 }

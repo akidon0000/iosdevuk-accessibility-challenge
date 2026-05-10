@@ -13,12 +13,19 @@ struct TimeColumnView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     let startTime: String
     let endTime: String
+    var sessionCount: Int = 1
+    var actsAsHeader: Bool = true
 
     var body: some View {
         timeContent
             .font(.caption)
             .accessibilityElement(children: .ignore)
-            .accessibilityLabel("Session start time \(startTime), session end time \(endTime)")
+            .accessibilityLabel(accessibilityLabel)
+            .accessibilityAddTraits(actsAsHeader ? .isHeader : [])
+    }
+
+    private var accessibilityLabel: String {
+        String(localized: "^[\(sessionCount) session](inflect: true) from \(startTime) to \(endTime)")
     }
 
     @ViewBuilder

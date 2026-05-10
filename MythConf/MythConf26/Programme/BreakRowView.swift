@@ -12,7 +12,11 @@ struct BreakRowView: View {
 
     var body: some View {
         AStack(vAlignment: .leading) {
-            TimeColumnView(startTime: session.startTimeText, endTime: session.endTimeText)
+            TimeColumnView(
+                startTime: session.startTimeText,
+                endTime: session.endTimeText,
+                actsAsHeader: false
+            )
 
             VStack(alignment: .leading) {
                 Text(session.sessionType.displayName)
@@ -29,5 +33,16 @@ struct BreakRowView: View {
         .padding()
         .frame(maxWidth: .infinity)
         .background(session.sessionType.color.opacity(0.12))
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(accessibilityDescription)
+    }
+
+    private var accessibilityDescription: String {
+        let timeRange = "Break Time from \(session.startTimeText) to \(session.endTimeText)"
+        let typeName = session.sessionType.displayName
+        if let talkID = session.contentIDs.first {
+            return "\(timeRange), \(typeName) at \(viewModel.locationNameFrom(talkID: talkID))"
+        }
+        return "\(timeRange), \(typeName)"
     }
 }
