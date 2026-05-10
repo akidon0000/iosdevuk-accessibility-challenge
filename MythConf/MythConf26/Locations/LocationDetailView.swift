@@ -31,6 +31,15 @@ struct LocationDetailView: View {
                 .frame(height: 400)
                 .clipShape(.rect(cornerRadius: 12))
                 .padding(.horizontal)
+                .accessibilityRepresentation {
+                    // Substitute the map's complex a11y subtree with a single button that
+                    // VoiceOver/Switch Control users can activate to open Apple Maps.
+                    Button("") {
+                        openInMaps()
+                    }
+                    .accessibilityLabel("Map showing \(location.name)")
+                    .accessibilityHint("Opens Apple Maps to explore this location")
+                }
 
                 Text(location.placeDescription)
                     .secondaryTextStyle()
@@ -39,5 +48,12 @@ struct LocationDetailView: View {
         }
         .navigationTitle(location.name)
         .navigationBarTitleDisplayMode(.large)
+    }
+
+    private func openInMaps() {
+        let mapLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        let mapItem = MKMapItem(location: mapLocation, address: nil)
+        mapItem.name = location.name
+        mapItem.openInMaps()
     }
 }
