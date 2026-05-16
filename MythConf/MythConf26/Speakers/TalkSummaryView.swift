@@ -28,6 +28,6 @@ struct TalkSummaryView: View {
     }
 
     private var accessibilityDescription: String {
-        "\(viewModel.talkTitleFrom(talkID: talkID)), from \(session.startTimeText) to \(session.endTimeText), at \(viewModel.locationNameFrom(talkID: talkID))"
+        "\(viewModel.talkTitleFrom(talkID: talkID)), from \(session.startTimeText.spokenTime) to \(session.endTimeText.spokenTime), at \(viewModel.locationNameFrom(talkID: talkID))"
     }
 }

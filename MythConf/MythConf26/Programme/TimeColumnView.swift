@@ -25,7 +25,7 @@ struct TimeColumnView: View {
     }
 
     private var accessibilityLabel: String {
-        String(localized: "^[\(sessionCount) session](inflect: true) from \(startTime) to \(endTime)")
+        String(localized: "^[\(sessionCount) session](inflect: true) from \(startTime.spokenTime) to \(endTime.spokenTime)")
     }
 
     @ViewBuilder

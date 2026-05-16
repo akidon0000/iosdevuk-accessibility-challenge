@@ -19,6 +19,7 @@ struct SessionDetailView: View {
                 AStack(vAlignment: .leading) {
                     Label(session.timeRange, systemImage: "clock")
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .accessibilityLabel("From \(session.startTimeText.spokenTime) to \(session.endTimeText.spokenTime)")
                     NavigationLink(value: LocationNavigationID(value: talk.locationID)) {
                         Label(viewModel.locationNameFrom(locationID: talk.locationID), systemImage: "mappin")
                     }

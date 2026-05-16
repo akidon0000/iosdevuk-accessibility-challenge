@@ -38,7 +38,7 @@ struct BreakRowView: View {
     }
 
     private var accessibilityDescription: String {
-        let timeRange = "Break Time from \(session.startTimeText) to \(session.endTimeText)"
+        let timeRange = "Break Time from \(session.startTimeText.spokenTime) to \(session.endTimeText.spokenTime)"
         let typeName = session.sessionType.displayName
         if let talkID = session.contentIDs.first {
             return "\(timeRange), \(typeName) at \(viewModel.locationNameFrom(talkID: talkID))"
