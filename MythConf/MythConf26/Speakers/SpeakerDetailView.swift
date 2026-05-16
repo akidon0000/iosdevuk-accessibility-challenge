@@ -22,7 +22,6 @@ struct SpeakerDetailView: View {
                         Text(speaker.name)
                             .font(.title2)
                             .bold()
-                            .accessibilityHidden(true) // navigation title already announces this name
                         if !speaker.social.isEmpty {
                             SocialLinksView(social: speaker.social)
                         }
@@ -57,8 +56,6 @@ struct SpeakerDetailView: View {
             }
             .padding()
         }
-        .navigationTitle(speaker.name)
-        .navigationBarTitleDisplayMode(.inline)
     }
 
     private func talksWithSessions() -> [(talkID: UUID, session: Session)] {

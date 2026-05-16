@@ -15,6 +15,12 @@ struct SessionDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
+                Text(talk.talkTitle)
+                    .font(.title2)
+                    .bold()
+                    .accessibilityAddTraits(.isHeader)
+                    .padding(.bottom, 4)
+
                 // Time and location
                 AStack(vAlignment: .leading) {
                     Label(session.timeRange, systemImage: "clock")
@@ -40,16 +46,10 @@ struct SessionDetailView: View {
                     .padding(.vertical)
 
                 // Abstract
-                Text("About this talk")
-                    .accessibilityAddTraits(.isHeader)
-                    .frame(width: 0, height: 0)
-                    .clipped()
                 Text(talk.talkDescription)
             }
             .padding()
         }
-        .navigationTitle(talk.talkTitle)
-        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 FavouriteButtonView(talk: talk)

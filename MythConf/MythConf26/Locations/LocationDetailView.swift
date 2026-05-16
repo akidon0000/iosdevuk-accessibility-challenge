@@ -19,6 +19,13 @@ struct LocationDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
+                Text(location.name)
+                    .font(.title2)
+                    .bold()
+                    .accessibilityAddTraits(.isHeader)
+                    .padding(.horizontal)
+                    .padding(.bottom, 4)
+
                 Map(initialPosition: .region(
                     MKCoordinateRegion(
                         center: coordinate,
@@ -37,8 +44,7 @@ struct LocationDetailView: View {
                     Button("") {
                         openInMaps()
                     }
-                    .accessibilityLabel("Map showing \(location.name)")
-                    .accessibilityHint("Opens Apple Maps to explore this location")
+                    .accessibilityLabel("Open in Maps: \(location.name)")
                 }
 
                 Text(location.placeDescription)
@@ -46,8 +52,6 @@ struct LocationDetailView: View {
                     .padding()
             }
         }
-        .navigationTitle(location.name)
-        .navigationBarTitleDisplayMode(.large)
     }
 
     private func openInMaps() {
