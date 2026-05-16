@@ -7,6 +7,7 @@ import SwiftUI
 
 struct MyScheduleView: View {
     @Environment(ViewModel.self) private var viewModel
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
 
     var body: some View {
         NavigationStack {
@@ -51,6 +52,7 @@ struct MyScheduleView: View {
                 }
             }
             .navigationTitle("My Schedule")
+            .landscapeHidesNavigationBar(verticalSizeClass: verticalSizeClass)
             .conferenceNavigationDestinations()
         }
     }
