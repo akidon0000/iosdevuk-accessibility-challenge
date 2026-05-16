@@ -10,17 +10,20 @@ struct FavouriteButtonView: View {
     @Environment(ViewModel.self) private var viewModel
     let talk: Talk
 
+    private var isFavourite: Bool { viewModel.isFavourite(talk: talk) }
+
     var body: some View {
         Button {
-            if viewModel.isFavourite(talk: talk) {
+            if isFavourite {
                 viewModel.removeFavourite(talk: talk)
             } else {
                 viewModel.addFavourite(talk: talk)
             }
         } label: {
-            Image(systemName: viewModel.isFavourite(talk: talk) ? "star.fill" : "star")
-                .foregroundStyle(viewModel.isFavourite(talk: talk) ? Color.yellow : Color.textSecondary)
+            Image(systemName: isFavourite ? "star.fill" : "star")
+                .foregroundStyle(isFavourite ? Color.yellow : Color.textSecondary)
         }
-        .accessibilityLabel(viewModel.isFavourite(talk: talk) ? "Remove session from favourites" : "Add session to favourites")
+        .accessibilityLabel(isFavourite ? "Remove session from favourites" : "Favourite")
+        .sensoryFeedback(.success, trigger: isFavourite)
     }
 }
