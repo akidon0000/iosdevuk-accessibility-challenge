@@ -8,6 +8,7 @@ import MapKit
 
 struct LocationDetailView: View {
     @Environment(ViewModel.self) private var viewModel
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
     let locationID: String
 
     @State private var isInlineTitleVisible = true
@@ -17,6 +18,8 @@ struct LocationDetailView: View {
     private var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
     }
+
+    private var isLandscape: Bool { verticalSizeClass == .compact }
 
     var body: some View {
         ScrollView {
@@ -31,30 +34,25 @@ struct LocationDetailView: View {
                         isInlineTitleVisible = visible
                     }
 
-                Map(initialPosition: .region(
-                    MKCoordinateRegion(
-                        center: coordinate,
-                        latitudinalMeters: 500,
-                        longitudinalMeters: 500
-                    )
-                )) {
-                    Marker(location.name, coordinate: coordinate)
-                }
-                .frame(height: 400)
-                .clipShape(.rect(cornerRadius: 12))
-                .padding(.horizontal)
-                .accessibilityRepresentation {
-                    // Substitute the map's complex a11y subtree with a single button that
-                    // VoiceOver/Switch Control users can activate to open Apple Maps.
-                    Button("") {
-                        openInMaps()
+                if isLandscape {
+                    HStack(alignment: .top, spacing: 16) {
+                        mapView
+                            .frame(maxWidth: .infinity, minHeight: 280)
+                        Text(location.placeDescription)
+                            .secondaryTextStyle()
+                            .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    .accessibilityLabel("Open in Maps: \(location.name)")
-                }
+                    .padding(.horizontal)
+                    .padding(.bottom)
+                } else {
+                    mapView
+                        .frame(height: 400)
+                        .padding(.horizontal)
 
-                Text(location.placeDescription)
-                    .secondaryTextStyle()
-                    .padding()
+                    Text(location.placeDescription)
+                        .secondaryTextStyle()
+                        .padding()
+                }
             }
         }
         .toolbar {
@@ -66,6 +64,27 @@ struct LocationDetailView: View {
                         .truncationMode(.tail)
                 }
             }
+        }
+    }
+
+    private var mapView: some View {
+        Map(initialPosition: .region(
+            MKCoordinateRegion(
+                center: coordinate,
+                latitudinalMeters: 500,
+                longitudinalMeters: 500
+            )
+        )) {
+            Marker(location.name, coordinate: coordinate)
+        }
+        .clipShape(.rect(cornerRadius: 12))
+        .accessibilityRepresentation {
+            // Substitute the map's complex a11y subtree with a single button that
+            // VoiceOver/Switch Control users can activate to open Apple Maps.
+            Button("") {
+                openInMaps()
+            }
+            .accessibilityLabel("Open in Maps: \(location.name)")
         }
     }
 
