@@ -25,6 +25,7 @@ struct TalkSummaryView: View {
         .padding(.vertical, 4)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(accessibilityDescription)
+        .accessibilityInputLabels([viewModel.talkTitleFrom(talkID: talkID)])
     }
 
     private var accessibilityDescription: String {

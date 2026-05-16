@@ -35,6 +35,9 @@ struct BreakRowView: View {
         .background(session.sessionType.color.opacity(0.12))
         .accessibilityElement(children: .combine)
         .accessibilityLabel(accessibilityDescription)
+        // Break rows are not tappable. VoiceOver still reads them, but exclude
+        // them from Voice Control / Switch Control / Full Keyboard targets.
+        .accessibilityRespondsToUserInteraction(false)
     }
 
     private var accessibilityDescription: String {

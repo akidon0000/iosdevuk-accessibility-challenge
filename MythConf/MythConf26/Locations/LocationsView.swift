@@ -21,6 +21,7 @@ struct LocationsView: View {
                             .a11yLineLimit(2)
                     }
                 }
+                .accessibilityInputLabels([location.name])
             }
             .navigationTitle("Locations")
             .conferenceNavigationDestinations()

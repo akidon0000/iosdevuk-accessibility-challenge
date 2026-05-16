@@ -85,6 +85,10 @@ struct LocationDetailView: View {
                 openInMaps()
             }
             .accessibilityLabel("Open in Maps: \(location.name)")
+            .accessibilityInputLabels([
+                "Map", "Open map", "Open in Maps",
+                "Show map", "Directions", location.name
+            ])
         }
     }
 

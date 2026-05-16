@@ -20,6 +20,7 @@ struct SocialLinksView: View {
                             .padding(.horizontal, 4)
                     }
                     .contentShape(.rect)
+                    .accessibilityInputLabels(inputLabels(for: item.socialType))
                 }
             }
         }
@@ -33,6 +34,18 @@ struct SocialLinksView: View {
         case "linkedin": return "person.crop.square"
         case "website", "web", "blog": return "globe"
         default: return "link"
+        }
+    }
+
+    private func inputLabels(for type: String) -> [String] {
+        switch type.lowercased() {
+        case "twitter", "x": return ["Twitter", "X", "Tweet"]
+        case "mastodon": return ["Mastodon", "Toot"]
+        case "github": return ["GitHub", "Repository", "Code", "Source"]
+        case "linkedin": return ["LinkedIn", "Profile"]
+        case "website", "web", "blog":
+            return ["Website", "Web", "Homepage", "Blog", "Site"]
+        default: return [type.capitalized, "Link"]
         }
     }
 }

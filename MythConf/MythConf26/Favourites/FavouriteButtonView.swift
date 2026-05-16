@@ -35,6 +35,10 @@ struct FavouriteButtonView: View {
                 .contentShape(.rect)
         }
         .accessibilityLabel(isFavourite ? "Remove session from favourites" : "Favourite")
+        .accessibilityInputLabels([
+            "Favourite", "Favorite", "Star", "Bookmark",
+            "Save", "Add to schedule", "Remove from schedule"
+        ])
         .sensoryFeedback(.success, trigger: isFavourite)
     }
 }

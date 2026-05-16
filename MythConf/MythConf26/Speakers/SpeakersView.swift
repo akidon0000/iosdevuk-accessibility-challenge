@@ -23,6 +23,9 @@ struct SpeakersView: View {
                 }
             }
             .searchable(text: $searchText, prompt: "Search speakers")
+            .accessibilityInputLabels([
+                "Search", "Find speaker", "Search speakers", "Filter"
+            ])
             .navigationTitle("Speakers")
             .conferenceNavigationDestinations()
         }

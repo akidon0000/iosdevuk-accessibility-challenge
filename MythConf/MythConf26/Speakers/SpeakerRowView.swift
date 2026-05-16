@@ -28,5 +28,6 @@ struct SpeakerRowView: View {
             }
         }
         .accessibilityElement(children: .combine)
+        .accessibilityInputLabels([speaker.name])
     }
 }
