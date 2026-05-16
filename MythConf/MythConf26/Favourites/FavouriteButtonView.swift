@@ -21,7 +21,18 @@ struct FavouriteButtonView: View {
             }
         } label: {
             Image(systemName: isFavourite ? "star.fill" : "star")
+                .font(.system(size: 18, weight: .semibold))
                 .foregroundStyle(isFavourite ? Color.yellow : Color.textSecondary)
+                .overlay(alignment: .topTrailing) {
+                    if isFavourite {
+                        Image(systemName: "sparkles")
+                            .font(.system(size: 10, weight: .bold))
+                            .foregroundStyle(Color.yellow)
+                            .offset(x: 6, y: -3)
+                    }
+                }
+                .frame(width: 44, height: 44)
+                .contentShape(.rect)
         }
         .accessibilityLabel(isFavourite ? "Remove session from favourites" : "Favourite")
         .sensoryFeedback(.success, trigger: isFavourite)

@@ -39,7 +39,7 @@ struct ParallelTalkCardView: View {
                         Text(viewModel.locationNameFrom(talkID: talkID))
                             .font(.caption)
                             .secondaryTextStyle()
-                        Spacer(minLength: 32) // reserve room for the overlaid favourite button
+                        Spacer(minLength: 60) // reserve room for the overlaid 44×44 favourite button + its padding
                     }
                     .padding()
                 }
