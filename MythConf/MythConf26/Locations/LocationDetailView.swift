@@ -10,6 +10,8 @@ struct LocationDetailView: View {
     @Environment(ViewModel.self) private var viewModel
     let locationID: String
 
+    @State private var isInlineTitleVisible = true
+
     private var location: Location { viewModel.locationFrom(locationID: locationID) }
 
     private var coordinate: CLLocationCoordinate2D {
@@ -25,6 +27,9 @@ struct LocationDetailView: View {
                     .accessibilityAddTraits(.isHeader)
                     .padding(.horizontal)
                     .padding(.bottom, 4)
+                    .onScrollVisibilityChange(threshold: 0.1) { visible in
+                        isInlineTitleVisible = visible
+                    }
 
                 Map(initialPosition: .region(
                     MKCoordinateRegion(
@@ -50,6 +55,16 @@ struct LocationDetailView: View {
                 Text(location.placeDescription)
                     .secondaryTextStyle()
                     .padding()
+            }
+        }
+        .toolbar {
+            if !isInlineTitleVisible {
+                ToolbarItem(placement: .principal) {
+                    Text(location.name)
+                        .font(.headline)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                }
             }
         }
     }

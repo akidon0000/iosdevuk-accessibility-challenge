@@ -9,6 +9,8 @@ struct SessionDetailView: View {
     @Environment(ViewModel.self) private var viewModel
     let talkReference: TalkReference
 
+    @State private var isInlineTitleVisible = true
+
     private var talk: Talk { viewModel.talkFrom(talkID: talkReference.talkID) }
     private var session: Session { talkReference.session }
 
@@ -20,6 +22,9 @@ struct SessionDetailView: View {
                     .bold()
                     .accessibilityAddTraits(.isHeader)
                     .padding(.bottom, 4)
+                    .onScrollVisibilityChange(threshold: 0.1) { visible in
+                        isInlineTitleVisible = visible
+                    }
 
                 // Time and location
                 AStack(vAlignment: .leading) {
@@ -51,6 +56,14 @@ struct SessionDetailView: View {
             .padding()
         }
         .toolbar {
+            if !isInlineTitleVisible {
+                ToolbarItem(placement: .principal) {
+                    Text(talk.talkTitle)
+                        .font(.headline)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                }
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 FavouriteButtonView(talk: talk)
             }
