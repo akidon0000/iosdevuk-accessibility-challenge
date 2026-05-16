@@ -26,7 +26,13 @@ struct ProgrammeView: View {
                 .padding(.vertical, 8)
 
                 if !days.isEmpty {
-                    DayScheduleView(sessions: days[selectedDayIndex])
+                    TabView(selection: $selectedDayIndex) {
+                        ForEach(days.indices, id: \.self) { index in
+                            DayScheduleView(sessions: days[index])
+                                .tag(index)
+                        }
+                    }
+                    .tabViewStyle(.page(indexDisplayMode: .never))
                 }
             }
             .navigationTitle("MythConf 2026")
