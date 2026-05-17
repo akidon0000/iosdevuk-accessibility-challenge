@@ -66,6 +66,9 @@ struct SessionDetailView: View {
             }
             ToolbarItem(placement: .topBarTrailing) {
                 FavouriteButtonView(talk: talk)
+                    // Full Keyboard Access: ⌘D toggles favourite from the
+                    // detail screen without having to focus the toolbar star.
+                    .keyboardShortcut("d", modifiers: .command)
             }
         }
     }
