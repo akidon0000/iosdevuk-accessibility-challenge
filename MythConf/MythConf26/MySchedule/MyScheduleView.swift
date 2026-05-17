@@ -42,7 +42,7 @@ struct MyScheduleView: View {
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                             .padding(.horizontal)
                                             .padding(.vertical, 8)
-                                            .background(Color(.systemBackground))
+                                            .background(.regularMaterial)
                                             .accessibilityAddTraits(.isHeader)
                                     }
                                 }
