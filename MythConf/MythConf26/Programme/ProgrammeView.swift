@@ -71,7 +71,17 @@ struct ProgrammeView: View {
         guard let first = days[index].first else { return [dayN] }
         let weekdayFull = first.startTime.formatted(.dateTime.weekday(.wide))
         let weekdayShort = first.startTime.formatted(.dateTime.weekday(.abbreviated))
-        return [weekdayFull, weekdayShort, dayN]
+        let day = first.startTime.formatted(.dateTime.day())
+        // Combined "3 Thursday" / "3 Thu" matches the visible tab label so
+        // Voice Control users can say what they see. Keep "Day N" and the
+        // bare weekday as alternates for shorter spoken commands.
+        return [
+            "\(day) \(weekdayFull)",
+            "\(day) \(weekdayShort)",
+            weekdayFull,
+            weekdayShort,
+            dayN,
+        ]
     }
 }
 
