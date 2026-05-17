@@ -819,7 +819,7 @@
     },
     {
       "locationID" : "tyndallLecture",
-      "talkTitle" : "Welcome to MythConf 2027",
+      "talkTitle" : "Welcome to MythConf 2026",
       "talkDescription" : "A brief welcome from the organisers to set the scene for the conference, introduce the venue, and thank the sponsors who made this all possible.",
       "speakerIDs" : [
         "AlexMorgan"
@@ -974,7 +974,7 @@
     {
       "speakerIDs" : [],
       "talkDescription" : "A panel discussion with several of the conference speakers on the current state of Swift and iOS development, where the platform is heading, and what they wish Apple would do differently.",
-      "talkTitle" : "Panel: The State of Swift in 2027",
+      "talkTitle" : "Panel: The State of Swift in 2026",
       "id" : "C1001023-C100-4100-8100-100000000023",
       "locationID" : "tyndallLecture"
     },
@@ -1005,7 +1005,7 @@
     },
     {
       "locationID" : "tyndallLecture",
-      "talkTitle" : "Computer Vision on Device: Core ML, Vision, and On-Device Models in 2027",
+      "talkTitle" : "Computer Vision on Device: Core ML, Vision, and On-Device Models in 2026",
       "talkDescription" : "On-device machine learning for computer vision has become genuinely practical for everyday iOS apps, not just specialist use cases. The combination of Core ML, the Vision framework, and Apple's increasingly powerful Neural Engine means there are real capabilities available without a network connection or a cloud bill.\n\nThis talk covers the practical landscape: how to use built-in Vision request types for common tasks, how to integrate custom Core ML models, and how to think about the tradeoffs between model size, accuracy, and inference speed on the range of devices your users actually have. We will also look at on-device foundation models and where vision-language tasks fit into the picture.\n\nExpect live demos, realistic examples, and an honest assessment of where the current limitations lie.",
       "speakerIDs" : [
         "TomNakamura"

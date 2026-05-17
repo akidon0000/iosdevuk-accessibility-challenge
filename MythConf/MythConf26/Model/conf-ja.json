@@ -819,7 +819,7 @@
     },
     {
       "locationID" : "tyndallLecture",
-      "talkTitle" : "MythConf 2027 へようこそ",
+      "talkTitle" : "MythConf 2026 へようこそ",
       "talkDescription" : "オーガナイザーからのオープニング挨拶です。カンファレンス全体の流れを共有し、会場をご案内し、本イベントを支えてくださったスポンサーの皆さまへの感謝をお伝えします。",
       "speakerIDs" : [
         "AlexMorgan"
@@ -974,7 +974,7 @@
     {
       "speakerIDs" : [],
       "talkDescription" : "本カンファレンスの登壇者数名による、Swift と iOS 開発の現状、プラットフォームの行方、そして「Apple に変えてほしい点」を語るパネルディスカッションです。",
-      "talkTitle" : "パネル: 2027 年の Swift",
+      "talkTitle" : "パネル: 2026 年の Swift",
       "id" : "C1001023-C100-4100-8100-100000000023",
       "locationID" : "tyndallLecture"
     },
@@ -1005,7 +1005,7 @@
     },
     {
       "locationID" : "tyndallLecture",
-      "talkTitle" : "オンデバイスのコンピュータビジョン: Core ML、Vision、2027 年のオンデバイスモデル",
+      "talkTitle" : "オンデバイスのコンピュータビジョン: Core ML、Vision、2026 年のオンデバイスモデル",
       "talkDescription" : "コンピュータビジョン向けのオンデバイス機械学習は、もはや専門用途だけのものではなく、日常的な iOS アプリでも本当に実用的になりました。Core ML、Vision フレームワーク、そして年々強力になる Apple の Neural Engine の組み合わせにより、ネットワーク接続もクラウド費用も無しで使える機能が現実的に手に入ります。\n\n本セッションでは実践的なランドスケープを取り上げます。一般的なタスクに対する組み込み Vision リクエスト型の使い方、カスタム Core ML モデルの統合、そしてユーザーが実際に持っている端末群の上で「モデルサイズ・精度・推論速度」のトレードオフをどう考えるかを扱います。オンデバイスの基盤モデル、vision-language タスクの位置付けにも触れます。\n\nライブデモ、現実的な事例、そして「現状の限界はどこにあるか」の率直な評価を含む構成です。",
       "speakerIDs" : [
         "TomNakamura"
