@@ -57,7 +57,9 @@ struct ProgrammeView: View {
 
     private func dayLabel(for sessions: [Session]) -> String {
         guard let first = sessions.first else { return "" }
-        return first.startTime.formatted(.dateTime.weekday(.abbreviated))
+        let day = first.startTime.formatted(.dateTime.day())
+        let weekday = first.startTime.formatted(.dateTime.weekday(.abbreviated))
+        return "\(day) \(weekday)"
     }
 
     private func pickerAccessibilityLabel(for index: Int) -> String {
