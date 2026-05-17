@@ -17,13 +17,15 @@ struct LocationsView: View {
                             .bold()
                         Text(location.placeDescription)
                             .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                            .lineLimit(2)
+                            .secondaryTextStyle()
+                            .a11yLineLimit(2)
                     }
                 }
+                .accessibilityInputLabels([location.name])
             }
             .navigationTitle("Locations")
             .conferenceNavigationDestinations()
+            .languageToggleToolbar()
         }
     }
 }

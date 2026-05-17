@@ -7,16 +7,24 @@ import SwiftUI
 
 struct MyScheduleView: View {
     @Environment(ViewModel.self) private var viewModel
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
+    @Environment(\.locale) private var locale
 
     var body: some View {
         NavigationStack {
             Group {
                 if viewModel.favouriteIds.isEmpty {
-                    ContentUnavailableView(
-                        "No Favourites Yet",
-                        systemImage: "star",
-                        description: Text("Tap the star on any session in the Programme to save it here.")
-                    )
+                    ContentUnavailableView {
+                        Label {
+                            Text("No Favourites Yet")
+                        } icon: {
+                            Image(systemName: "star")
+                                .secondaryTextStyle()
+                        }
+                    } description: {
+                        Text("Tap the star on any session in the Programme to save it here.")
+                            .secondaryTextStyle()
+                    }
                 } else {
                     ScrollView {
                         LazyVStack(spacing: 0, pinnedViews: .sectionHeaders) {
@@ -35,7 +43,8 @@ struct MyScheduleView: View {
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                             .padding(.horizontal)
                                             .padding(.vertical, 8)
-                                            .background(.regularMaterial)
+                                            .background(Color(.secondarySystemBackground))
+                                            .accessibilityAddTraits(.isHeader)
                                     }
                                 }
                             }
@@ -43,14 +52,18 @@ struct MyScheduleView: View {
                     }
                 }
             }
-            .navigationTitle("My Schedule")
+            .landscapeHidesNavigationBar(verticalSizeClass: verticalSizeClass)
             .conferenceNavigationDestinations()
+            .languageToggleToolbar()
+            .navigationTitle("My Schedule")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(Color(.systemBackground), for: .navigationBar)
         }
     }
 
     private func dayHeader(for sessions: [Session]) -> String {
         guard let first = sessions.first else { return "" }
-        return first.startTime.formatted(.dateTime.weekday(.wide).day().month(.wide))
+        return first.startTime.formatted(.dateTime.weekday(.wide).day().month(.wide).locale(locale))
     }
 }
 

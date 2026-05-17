@@ -9,22 +9,34 @@ struct SessionDetailView: View {
     @Environment(ViewModel.self) private var viewModel
     let talkReference: TalkReference
 
+    @State private var isInlineTitleVisible = true
+
     private var talk: Talk { viewModel.talkFrom(talkID: talkReference.talkID) }
     private var session: Session { talkReference.session }
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
+                Text(talk.talkTitle)
+                    .font(.title2)
+                    .bold()
+                    .accessibilityAddTraits(.isHeader)
+                    .padding(.bottom, 4)
+                    .onScrollVisibilityChange(threshold: 0.1) { visible in
+                        isInlineTitleVisible = visible
+                    }
+
                 // Time and location
-                HStack {
+                AStack(vAlignment: .leading) {
                     Label(session.timeRange, systemImage: "clock")
-                    Spacer()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .accessibilityLabel(Text("From \(session.startTimeText.spokenTime) to \(session.endTimeText.spokenTime)"))
                     NavigationLink(value: LocationNavigationID(value: talk.locationID)) {
                         Label(viewModel.locationNameFrom(locationID: talk.locationID), systemImage: "mappin")
                     }
                 }
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .secondaryTextStyle()
                 .padding(.bottom)
 
                 // Speakers
@@ -43,11 +55,20 @@ struct SessionDetailView: View {
             }
             .padding()
         }
-        .navigationTitle(talk.talkTitle)
-        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            if !isInlineTitleVisible {
+                ToolbarItem(placement: .principal) {
+                    Text(talk.talkTitle)
+                        .font(.headline)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                }
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 FavouriteButtonView(talk: talk)
+                    // Full Keyboard Access: ⌘D toggles favourite from the
+                    // detail screen without having to focus the toolbar star.
+                    .keyboardShortcut("d", modifiers: .command)
             }
         }
     }

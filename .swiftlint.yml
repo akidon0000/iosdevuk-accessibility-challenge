@@ -1,0 +1,21 @@
+# Accessibility-focused custom lint rules.
+# Install: brew install swiftlint
+# Run:     swiftlint MythConf/MythConf26
+
+only_rules:
+  - custom_rules
+
+custom_rules:
+  no_system_secondary_foreground_style:
+    name: "Use .secondaryTextStyle() instead of .foregroundStyle(.secondary)"
+    regex: '\.(foregroundStyle|foregroundColor)\(\.secondary\)'
+    message: >-
+      System .secondary resolves to (138,138,142) which fails WCAG AA
+      (3.44:1) on white. Use .secondaryTextStyle() (defined in
+      MythConf/MythConf26/Extensions/Color+A11y.swift) for WCAG AAA contrast.
+    severity: error
+
+included:
+  - MythConf/MythConf26
+excluded:
+  - MythConf/MythConf26/Extensions/Color+A11y.swift

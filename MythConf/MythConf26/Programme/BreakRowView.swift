@@ -11,24 +11,43 @@ struct BreakRowView: View {
     let session: Session
 
     var body: some View {
-        HStack {
-            TimeColumnView(startTime: session.startTimeText, endTime: session.endTimeText)
+        AStack(vAlignment: .leading) {
+            TimeColumnView(
+                startTime: session.startTimeText,
+                endTime: session.endTimeText,
+                actsAsHeader: false
+            )
 
             VStack(alignment: .leading) {
-                Text(session.sessionType.displayName)
+                Text(LocalizedStringKey(session.sessionType.displayName))
                     .italic()
                     .foregroundStyle(.primary)
                 if let talkID = session.contentIDs.first {
                     Text(viewModel.locationNameFrom(talkID: talkID))
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .secondaryTextStyle()
                 }
             }
-
-            Spacer()
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding()
         .frame(maxWidth: .infinity)
         .background(session.sessionType.color.opacity(0.12))
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(accessibilityDescription)
+        // Break rows are not tappable. VoiceOver still reads them, but exclude
+        // them from Voice Control / Switch Control / Full Keyboard targets.
+        .accessibilityRespondsToUserInteraction(false)
+    }
+
+    private var accessibilityDescription: String {
+        let start = session.startTimeText.spokenTime
+        let end = session.endTimeText.spokenTime
+        let typeName = String(localized: String.LocalizationValue(session.sessionType.displayName))
+        if let talkID = session.contentIDs.first {
+            let location = viewModel.locationNameFrom(talkID: talkID)
+            return String(localized: "Break Time from \(start) to \(end), \(typeName) at \(location)")
+        }
+        return String(localized: "Break Time from \(start) to \(end), \(typeName)")
     }
 }
