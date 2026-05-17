@@ -22,6 +22,15 @@ struct SpeakersView: View {
                     SpeakerRowView(speakerID: speaker.id)
                 }
             }
+            .overlay {
+                if filteredSpeakers.isEmpty, !searchText.isEmpty {
+                    ContentUnavailableView(
+                        "No search results",
+                        systemImage: "magnifyingglass",
+                        description: Text("No speakers match “\(searchText)”.")
+                    )
+                }
+            }
             .searchable(text: $searchText, prompt: "Search speakers")
             .accessibilityInputLabels([
                 "Search", "Find speaker", "Search speakers", "Filter"

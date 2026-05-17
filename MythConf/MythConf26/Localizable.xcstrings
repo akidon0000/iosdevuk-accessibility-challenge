@@ -292,6 +292,26 @@
         }
       }
     },
+    "No search results" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "検索結果がありませんでした"
+          }
+        }
+      }
+    },
+    "No speakers match “%@”." : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」に一致するスピーカーはいません。"
+          }
+        }
+      }
+    },
     "Open in Maps: %@" : {
       "localizations" : {
         "ja" : {
