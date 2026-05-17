@@ -8,6 +8,7 @@ import SwiftUI
 struct ProgrammeView: View {
     @Environment(ViewModel.self) private var viewModel
     @Environment(\.verticalSizeClass) private var verticalSizeClass
+    @Environment(\.locale) private var locale
     @State private var selectedDayIndex = 0
 
     private var days: [[Session]] { viewModel.confData.sessions }

@@ -31,8 +31,15 @@ struct LanguageToggleButton: View {
                     .padding(.horizontal, 10)
                     .padding(.vertical, 4)
                     .background(.thinMaterial, in: .capsule)
+                    .frame(minWidth: 44, minHeight: 44)
+                    .contentShape(.rect)
             }
             .accessibilityLabel(isShowingEnglish ? "日本語表示に戻す" : "Switch to English")
+            .accessibilityInputLabels(
+                isShowingEnglish
+                    ? ["Japanese", "日本語", "Switch language", "Toggle language"]
+                    : ["English", "EN", "Switch language", "Toggle language"]
+            )
         }
     }
 
