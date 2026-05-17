@@ -53,6 +53,7 @@ struct MyScheduleView: View {
             }
             .navigationTitle("My Schedule")
             .landscapeHidesNavigationBar(verticalSizeClass: verticalSizeClass)
+            .toolbarBackground(Color(.systemBackground), for: .navigationBar)
             .conferenceNavigationDestinations()
             .languageToggleToolbar()
         }
