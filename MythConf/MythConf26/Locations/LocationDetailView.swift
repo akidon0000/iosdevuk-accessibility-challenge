@@ -68,28 +68,19 @@ struct LocationDetailView: View {
     }
 
     private var mapView: some View {
-        Map(initialPosition: .region(
-            MKCoordinateRegion(
-                center: coordinate,
-                latitudinalMeters: 500,
-                longitudinalMeters: 500
-            )
-        )) {
-            Marker(location.name, coordinate: coordinate)
-        }
-        .clipShape(.rect(cornerRadius: 12))
-        .accessibilityRepresentation {
-            // Substitute the map's complex a11y subtree with a single button that
-            // VoiceOver/Switch Control users can activate to open Apple Maps.
-            Button("") {
-                openInMaps()
+        LocationSnapshotMapView(location: location, coordinate: coordinate)
+            .accessibilityRepresentation {
+                // Substitute the map's complex a11y subtree with a single button that
+                // VoiceOver/Switch Control users can activate to open Apple Maps.
+                Button("") {
+                    openInMaps()
+                }
+                .accessibilityLabel("Open in Maps: \(location.name)")
+                .accessibilityInputLabels([
+                    "Map", "Open map", "Open in Maps",
+                    "Show map", "Directions", location.name
+                ])
             }
-            .accessibilityLabel("Open in Maps: \(location.name)")
-            .accessibilityInputLabels([
-                "Map", "Open map", "Open in Maps",
-                "Show map", "Directions", location.name
-            ])
-        }
     }
 
     private func openInMaps() {
@@ -97,5 +88,72 @@ struct LocationDetailView: View {
         let mapItem = MKMapItem(location: mapLocation, address: nil)
         mapItem.name = location.name
         mapItem.openInMaps()
+    }
+}
+
+/// Shows the live `Map` when online and falls back to a cached
+/// `MKMapSnapshotter` image (with an explicit offline notice) when the device
+/// has no network connectivity.
+private struct LocationSnapshotMapView: View {
+    let location: Location
+    let coordinate: CLLocationCoordinate2D
+
+    @Environment(\.colorScheme) private var colorScheme
+    @Environment(NetworkMonitor.self) private var network
+    @State private var cachedImage: UIImage?
+
+    private var isDark: Bool { colorScheme == .dark }
+    private var shouldShowCache: Bool { !network.isOnline && cachedImage != nil }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            ZStack {
+                if shouldShowCache, let cachedImage {
+                    // Color.clear is the layout anchor that takes the parent's
+                    // offered size; the overlay image fills it without bleeding
+                    // its intrinsic width up the layout chain.
+                    Color.clear
+                        .overlay {
+                            Image(uiImage: cachedImage)
+                                .resizable()
+                                .scaledToFill()
+                        }
+                        .clipped()
+                    Image(systemName: "mappin.circle.fill")
+                        .font(.system(size: 32))
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(.white, .red)
+                        .shadow(color: .black.opacity(0.4), radius: 2, x: 0, y: 1)
+                } else {
+                    Map(initialPosition: .region(
+                        MKCoordinateRegion(
+                            center: coordinate,
+                            latitudinalMeters: 500,
+                            longitudinalMeters: 500
+                        )
+                    )) {
+                        Marker(location.name, coordinate: coordinate)
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .clipShape(.rect(cornerRadius: 12))
+
+            if shouldShowCache {
+                Label(
+                    "No network connection — showing a saved snapshot of this map.",
+                    systemImage: "wifi.slash"
+                )
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .accessibilityElement(children: .combine)
+            }
+        }
+        .task(id: isDark) {
+            cachedImage = LocationMapSnapshotCache.shared.cachedImage(
+                locationID: location.id,
+                isDark: isDark
+            )
+        }
     }
 }
