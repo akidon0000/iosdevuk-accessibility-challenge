@@ -33,6 +33,22 @@ struct HomeView: View {
         // its item widths instead of keeping the stale portrait/landscape
         // layout. Selection survives because `selectedTab` lives outside.
         .id(verticalSizeClass)
+        // Hidden ⌘1‑4 shortcuts so Full Keyboard Access users can jump
+        // between tabs without aiming at the small tab-bar targets.
+        .background {
+            Group {
+                Button("Programme") { selectedTab = .programme }
+                    .keyboardShortcut("1", modifiers: .command)
+                Button("Speakers") { selectedTab = .speakers }
+                    .keyboardShortcut("2", modifiers: .command)
+                Button("Locations") { selectedTab = .locations }
+                    .keyboardShortcut("3", modifiers: .command)
+                Button("My Schedule") { selectedTab = .mySchedule }
+                    .keyboardShortcut("4", modifiers: .command)
+            }
+            .hidden()
+            .accessibilityHidden(true)
+        }
     }
 
     private enum TabSection: Hashable {

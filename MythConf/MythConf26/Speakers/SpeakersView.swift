@@ -8,6 +8,7 @@ import SwiftUI
 struct SpeakersView: View {
     @Environment(ViewModel.self) private var viewModel
     @State private var searchText = ""
+    @State private var isSearchFocused = false
 
     private var filteredSpeakers: [Speaker] {
         let sorted = viewModel.confData.speakers.sorted()
@@ -38,6 +39,12 @@ struct SpeakersView: View {
             .navigationTitle("Speakers")
             .conferenceNavigationDestinations()
             .languageToggleToolbar()
+            .background {
+                Button("Focus search") { isSearchFocused = true }
+                    .keyboardShortcut("f", modifiers: .command)
+                    .hidden()
+                    .accessibilityHidden(true)
+            }
         }
     }
 }
