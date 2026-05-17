@@ -19,7 +19,7 @@ struct BreakRowView: View {
             )
 
             VStack(alignment: .leading) {
-                Text(session.sessionType.displayName)
+                Text(LocalizedStringKey(session.sessionType.displayName))
                     .italic()
                     .foregroundStyle(.primary)
                 if let talkID = session.contentIDs.first {
@@ -41,11 +41,13 @@ struct BreakRowView: View {
     }
 
     private var accessibilityDescription: String {
-        let timeRange = "Break Time from \(session.startTimeText.spokenTime) to \(session.endTimeText.spokenTime)"
-        let typeName = session.sessionType.displayName
+        let start = session.startTimeText.spokenTime
+        let end = session.endTimeText.spokenTime
+        let typeName = String(localized: String.LocalizationValue(session.sessionType.displayName))
         if let talkID = session.contentIDs.first {
-            return "\(timeRange), \(typeName) at \(viewModel.locationNameFrom(talkID: talkID))"
+            let location = viewModel.locationNameFrom(talkID: talkID)
+            return String(localized: "Break Time from \(start) to \(end), \(typeName) at \(location)")
         }
-        return "\(timeRange), \(typeName)"
+        return String(localized: "Break Time from \(start) to \(end), \(typeName)")
     }
 }

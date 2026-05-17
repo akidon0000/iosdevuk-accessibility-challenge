@@ -29,6 +29,10 @@ struct TalkSummaryView: View {
     }
 
     private var accessibilityDescription: String {
-        "\(viewModel.talkTitleFrom(talkID: talkID)), from \(session.startTimeText.spokenTime) to \(session.endTimeText.spokenTime), at \(viewModel.locationNameFrom(talkID: talkID))"
+        let title = viewModel.talkTitleFrom(talkID: talkID)
+        let start = session.startTimeText.spokenTime
+        let end = session.endTimeText.spokenTime
+        let location = viewModel.locationNameFrom(talkID: talkID)
+        return String(localized: "\(title), from \(start) to \(end), at \(location)")
     }
 }

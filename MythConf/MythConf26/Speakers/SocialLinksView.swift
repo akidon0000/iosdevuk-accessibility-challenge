@@ -112,10 +112,17 @@ private struct ParsedSocialLink: Identifiable {
     /// account handle.
     var accessibilityLabel: String {
         if let brand {
-            return "\(brand.displayName) account"
+            switch brand {
+            case .gitHub: return String(localized: "GitHub account")
+            case .linkedIn: return String(localized: "LinkedIn account")
+            case .x: return String(localized: "X account")
+            case .mastodon: return String(localized: "Mastodon account")
+            case .blueSky: return String(localized: "Bluesky account")
+            case .youTube: return String(localized: "YouTube account")
+            }
         }
         let host = url.host.map(strippingWWW) ?? url.absoluteString
-        return "Website, \(host)"
+        return String(localized: "Website, \(host)")
     }
 
     private func strippingWWW(_ host: String) -> String {

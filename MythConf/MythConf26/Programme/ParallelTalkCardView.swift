@@ -14,9 +14,13 @@ struct ParallelTalkCardView: View {
     var positionTotal: Int = 1
 
     private var combinedAccessibilityLabel: String {
-        let base = "\(viewModel.talkTitleFrom(talkID: talkID)), by \(viewModel.speakersFrom(talkID: talkID)), at \(viewModel.locationNameFrom(talkID: talkID))"
-        guard positionTotal > 1 else { return base }
-        return "\(base), \(positionIndex + 1) of \(positionTotal)"
+        let title = viewModel.talkTitleFrom(talkID: talkID)
+        let speakers = viewModel.speakersFrom(talkID: talkID)
+        let location = viewModel.locationNameFrom(talkID: talkID)
+        if positionTotal > 1 {
+            return String(localized: "\(title), by \(speakers), at \(location), \(positionIndex + 1) of \(positionTotal)")
+        }
+        return String(localized: "\(title), by \(speakers), at \(location)")
     }
 
     var body: some View {

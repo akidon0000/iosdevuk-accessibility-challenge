@@ -1,0 +1,416 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@, by %@, at %@" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@、登壇 %2$@、会場 %3$@"
+          }
+        }
+      }
+    },
+    "%@, by %@, at %@, %lld of %lld" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@、登壇 %2$@、会場 %3$@、%4$lld / %5$lld"
+          }
+        }
+      }
+    },
+    "%@, from %@ to %@, at %@" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@、%2$@ から %3$@、会場 %4$@"
+          }
+        }
+      }
+    },
+    "%lld session from %@ to %@" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$@ から %3$@ までの %1$lld セッション"
+          }
+        }
+      }
+    },
+    "Bluesky account" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bluesky アカウント"
+          }
+        }
+      }
+    },
+    "Break Time from %@ to %@" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ から %2$@ までの休憩時間"
+          }
+        }
+      }
+    },
+    "Break Time from %@ to %@, %@" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ から %2$@ までの%3$@"
+          }
+        }
+      }
+    },
+    "Break Time from %@ to %@, %@ at %@" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ から %2$@ までの%3$@、会場 %4$@"
+          }
+        }
+      }
+    },
+    "Conference Dinner" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カンファレンスディナー"
+          }
+        }
+      }
+    },
+    "Conference day" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カンファレンスの日"
+          }
+        }
+      }
+    },
+    "Day %lld" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 日目"
+          }
+        }
+      }
+    },
+    "Day %lld, %@" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld 日目、%2$@"
+          }
+        }
+      }
+    },
+    "Dinner" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ディナー"
+          }
+        }
+      }
+    },
+    "Discussion Panel" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "パネルディスカッション"
+          }
+        }
+      }
+    },
+    "Favourite" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "お気に入りに追加"
+          }
+        }
+      }
+    },
+    "From %@ to %@" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ から %2$@"
+          }
+        }
+      }
+    },
+    "GitHub account" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub アカウント"
+          }
+        }
+      }
+    },
+    "Lightning Talks" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ライトニングトーク"
+          }
+        }
+      }
+    },
+    "LinkedIn account" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LinkedIn アカウント"
+          }
+        }
+      }
+    },
+    "Locations" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "会場"
+          }
+        }
+      }
+    },
+    "Lunch" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ランチ"
+          }
+        }
+      }
+    },
+    "Mastodon account" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mastodon アカウント"
+          }
+        }
+      }
+    },
+    "My Schedule" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "マイスケジュール"
+          }
+        }
+      }
+    },
+    "No Favourites Yet" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "お気に入りはまだありません"
+          }
+        }
+      }
+    },
+    "No network connection — showing a saved snapshot of this map." : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ネットワーク未接続のため、保存された地図を表示しています。"
+          }
+        }
+      }
+    },
+    "Open in Maps: %@" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ をマップで開く"
+          }
+        }
+      }
+    },
+    "Programme" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プログラム"
+          }
+        }
+      }
+    },
+    "Rail Trip" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "電車での移動"
+          }
+        }
+      }
+    },
+    "Registration" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "受付"
+          }
+        }
+      }
+    },
+    "Remove session from favourites" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "セッションをお気に入りから削除"
+          }
+        }
+      }
+    },
+    "Search speakers" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スピーカーを検索"
+          }
+        }
+      }
+    },
+    "Sessions" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "セッション"
+          }
+        }
+      }
+    },
+    "Social Event" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "懇親イベント"
+          }
+        }
+      }
+    },
+    "Speakers" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スピーカー"
+          }
+        }
+      }
+    },
+    "Talk" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "トーク"
+          }
+        }
+      }
+    },
+    "Tap the star on any session in the Programme to save it here." : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プログラムでセッションの星をタップすると、ここに保存されます。"
+          }
+        }
+      }
+    },
+    "Tea / Coffee Break" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ティー / コーヒー休憩"
+          }
+        }
+      }
+    },
+    "Website, %@" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Web サイト、%@"
+          }
+        }
+      }
+    },
+    "Workshop" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ワークショップ"
+          }
+        }
+      }
+    },
+    "X account" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "X アカウント"
+          }
+        }
+      }
+    },
+    "YouTube account" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "YouTube アカウント"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

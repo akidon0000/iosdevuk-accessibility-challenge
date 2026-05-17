@@ -60,14 +60,15 @@ struct ProgrammeView: View {
     }
 
     private func pickerAccessibilityLabel(for index: Int) -> String {
-        "Day \(index + 1), \(dayLabel(for: days[index]))"
+        String(localized: "Day \(index + 1), \(dayLabel(for: days[index]))")
     }
 
     private func pickerInputLabels(for index: Int) -> [String] {
-        guard let first = days[index].first else { return ["Day \(index + 1)"] }
+        let dayN = String(localized: "Day \(index + 1)")
+        guard let first = days[index].first else { return [dayN] }
         let weekdayFull = first.startTime.formatted(.dateTime.weekday(.wide))
         let weekdayShort = first.startTime.formatted(.dateTime.weekday(.abbreviated))
-        return [weekdayFull, weekdayShort, "Day \(index + 1)"]
+        return [weekdayFull, weekdayShort, dayN]
     }
 }
 
