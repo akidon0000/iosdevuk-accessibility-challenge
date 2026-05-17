@@ -11,12 +11,26 @@ import SwiftUI
 struct MythConf: App {
     @State private var viewModel = ViewModel()
     @State private var networkMonitor = NetworkMonitor()
+    @AppStorage("languageOverride") private var languageOverride: String = ""
+
+    /// Locale to apply to SwiftUI's `\.locale` environment so that
+    /// `Text` / `Label` look up the right translations. When no override is
+    /// set we fall back to the system's locale.
+    private var effectiveLocale: Locale {
+        languageOverride.isEmpty ? Locale.current : Locale(identifier: languageOverride)
+    }
 
     var body: some Scene {
         WindowGroup {
             HomeView()
                 .environment(viewModel)
                 .environment(networkMonitor)
+                .environment(\.locale, effectiveLocale)
+                .onChange(of: effectiveLocale) { _, _ in
+                    // Reload the bundled conf JSON because the active language
+                    // determines which file (conf.json / conf-ja.json) we read.
+                    viewModel.reload()
+                }
                 .task {
                     // Pre-fetch venue map snapshots so the Locations screens
                     // remain usable when the network is unavailable. Only

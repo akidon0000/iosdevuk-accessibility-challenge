@@ -25,6 +25,7 @@ struct LocationsView: View {
             }
             .navigationTitle("Locations")
             .conferenceNavigationDestinations()
+            .languageToggleToolbar()
         }
     }
 }

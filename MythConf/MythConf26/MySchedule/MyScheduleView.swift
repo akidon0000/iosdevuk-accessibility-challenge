@@ -54,6 +54,7 @@ struct MyScheduleView: View {
             .navigationTitle("My Schedule")
             .landscapeHidesNavigationBar(verticalSizeClass: verticalSizeClass)
             .conferenceNavigationDestinations()
+            .languageToggleToolbar()
         }
     }
 

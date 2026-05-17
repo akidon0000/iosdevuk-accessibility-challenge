@@ -28,6 +28,7 @@ struct SpeakersView: View {
             ])
             .navigationTitle("Speakers")
             .conferenceNavigationDestinations()
+            .languageToggleToolbar()
         }
     }
 }

@@ -51,6 +51,7 @@ struct ProgrammeView: View {
                 }
             }
             .conferenceNavigationDestinations()
+            .languageToggleToolbar()
         }
     }
 
