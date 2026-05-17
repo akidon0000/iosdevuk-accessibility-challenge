@@ -8,6 +8,7 @@ import SwiftUI
 struct ProgrammeView: View {
     @Environment(ViewModel.self) private var viewModel
     @Environment(\.verticalSizeClass) private var verticalSizeClass
+    @Environment(\.locale) private var locale
     @State private var selectedDayIndex = 0
 
     private var days: [[Session]] { viewModel.confData.sessions }
@@ -57,7 +58,7 @@ struct ProgrammeView: View {
 
     private func dayLabel(for sessions: [Session]) -> String {
         guard let first = sessions.first else { return "" }
-        return first.startTime.formatted(.dateTime.weekday(.abbreviated))
+        return first.startTime.formatted(.dateTime.weekday(.abbreviated).locale(locale))
     }
 
     private func pickerAccessibilityLabel(for index: Int) -> String {
@@ -67,8 +68,8 @@ struct ProgrammeView: View {
     private func pickerInputLabels(for index: Int) -> [String] {
         let dayN = String(localized: "Day \(index + 1)")
         guard let first = days[index].first else { return [dayN] }
-        let weekdayFull = first.startTime.formatted(.dateTime.weekday(.wide))
-        let weekdayShort = first.startTime.formatted(.dateTime.weekday(.abbreviated))
+        let weekdayFull = first.startTime.formatted(.dateTime.weekday(.wide).locale(locale))
+        let weekdayShort = first.startTime.formatted(.dateTime.weekday(.abbreviated).locale(locale))
         return [weekdayFull, weekdayShort, dayN]
     }
 }

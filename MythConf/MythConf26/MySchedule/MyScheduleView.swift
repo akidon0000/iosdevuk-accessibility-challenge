@@ -8,6 +8,7 @@ import SwiftUI
 struct MyScheduleView: View {
     @Environment(ViewModel.self) private var viewModel
     @Environment(\.verticalSizeClass) private var verticalSizeClass
+    @Environment(\.locale) private var locale
 
     var body: some View {
         NavigationStack {
@@ -60,7 +61,7 @@ struct MyScheduleView: View {
 
     private func dayHeader(for sessions: [Session]) -> String {
         guard let first = sessions.first else { return "" }
-        return first.startTime.formatted(.dateTime.weekday(.wide).day().month(.wide))
+        return first.startTime.formatted(.dateTime.weekday(.wide).day().month(.wide).locale(locale))
     }
 }
 
