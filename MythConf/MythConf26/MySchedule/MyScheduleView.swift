@@ -42,7 +42,7 @@ struct MyScheduleView: View {
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                             .padding(.horizontal)
                                             .padding(.vertical, 8)
-                                            .background(Color(.systemBackground))
+                                            .background(Color(.secondarySystemBackground))
                                             .accessibilityAddTraits(.isHeader)
                                     }
                                 }
@@ -51,11 +51,12 @@ struct MyScheduleView: View {
                     }
                 }
             }
-            .navigationTitle("My Schedule")
             .landscapeHidesNavigationBar(verticalSizeClass: verticalSizeClass)
-            .toolbarBackground(Color(.systemBackground), for: .navigationBar)
             .conferenceNavigationDestinations()
             .languageToggleToolbar()
+            .navigationTitle("My Schedule")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(Color(.systemBackground), for: .navigationBar)
         }
     }
 
