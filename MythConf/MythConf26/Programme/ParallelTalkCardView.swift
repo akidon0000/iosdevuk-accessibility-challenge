@@ -24,7 +24,7 @@ struct ParallelTalkCardView: View {
     }
 
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
+        VStack() {
             NavigationLink(value: TalkReference(talkID: talkID, session: session)) {
                 VStack(alignment: .leading, spacing: 0) {
                     session.sessionType.color
@@ -43,23 +43,22 @@ struct ParallelTalkCardView: View {
                         Text(viewModel.locationNameFrom(talkID: talkID))
                             .font(.caption)
                             .secondaryTextStyle()
-                        Spacer(minLength: 60) // reserve room for the overlaid 44×44 favourite button + its padding
                     }
-                    .padding()
+                    .padding([.top, .horizontal])
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                .background(session.sessionType.color.opacity(0.1), in: .rect(cornerRadius: 10))
-                .clipShape(.rect(cornerRadius: 10))
+
             }
             .accessibilityLabel(combinedAccessibilityLabel)
-            .accessibilitySortPriority(1) // focus the card before the favourite button
+            .accessibilitySortPriority(1)
             .buttonStyle(.plain)
 
-            // FavouriteButton lives outside the NavigationLink so VoiceOver can focus it directly
             FavouriteButtonView(talk: viewModel.talkFrom(talkID: talkID))
-                .padding()
+                .frame(maxWidth: .infinity, alignment: .trailing)
                 .accessibilitySortPriority(0)
         }
-        .accessibilityElement(children: .contain) // keep card and its favourite button traversed together
+        .accessibilityElement(children: .contain)
+        .background(session.sessionType.color.opacity(0.1), in: .rect(cornerRadius: 10))
+        .clipShape(.rect(cornerRadius: 10))
     }
 }
