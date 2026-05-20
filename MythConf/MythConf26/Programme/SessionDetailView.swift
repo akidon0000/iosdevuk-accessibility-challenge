@@ -27,12 +27,23 @@ struct SessionDetailView: View {
                     }
 
                 // Time and location
-                AStack(vAlignment: .leading) {
-                    Label(session.timeRange, systemImage: "clock")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .accessibilityLabel(Text("From \(session.startTimeText.spokenTime) to \(session.endTimeText.spokenTime)"))
-                    NavigationLink(value: LocationNavigationID(value: talk.locationID)) {
-                        Label(viewModel.locationNameFrom(locationID: talk.locationID), systemImage: "mappin")
+                ViewThatFits(in: .horizontal) {
+                    HStack {
+                        Label(session.timeRange, systemImage: "clock")
+                            .accessibilityLabel(Text("From \(session.startTimeText.spokenTime) to \(session.endTimeText.spokenTime)"))
+                        Spacer()
+                        NavigationLink(value: LocationNavigationID(value: talk.locationID)) {
+                            Label(viewModel.locationNameFrom(locationID: talk.locationID), systemImage: "mappin")
+                                .labelStyle(.automatic)
+                        }
+                    }
+                    VStack(alignment: .leading) {
+                        Label(session.timeRange, systemImage: "clock")
+                            .accessibilityLabel(Text("From \(session.startTimeText.spokenTime) to \(session.endTimeText.spokenTime)"))
+                        NavigationLink(value: LocationNavigationID(value: talk.locationID)) {
+                            Label(viewModel.locationNameFrom(locationID: talk.locationID), systemImage: "mappin")
+                                .labelStyle(.automatic)
+                        }
                     }
                 }
                 .font(.subheadline)
