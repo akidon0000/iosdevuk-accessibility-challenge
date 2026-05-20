@@ -33,16 +33,14 @@ struct SessionDetailView: View {
                             .accessibilityLabel(Text("From \(session.startTimeText.spokenTime) to \(session.endTimeText.spokenTime)"))
                         Spacer()
                         NavigationLink(value: LocationNavigationID(value: talk.locationID)) {
-                            Label(viewModel.locationNameFrom(locationID: talk.locationID), systemImage: "mappin")
-                                .labelStyle(.automatic)
+                            locationLinkLabel
                         }
                     }
                     VStack(alignment: .leading) {
                         Label(session.timeRange, systemImage: "clock")
                             .accessibilityLabel(Text("From \(session.startTimeText.spokenTime) to \(session.endTimeText.spokenTime)"))
                         NavigationLink(value: LocationNavigationID(value: talk.locationID)) {
-                            Label(viewModel.locationNameFrom(locationID: talk.locationID), systemImage: "mappin")
-                                .labelStyle(.automatic)
+                            locationLinkLabel
                         }
                     }
                 }
@@ -53,7 +51,15 @@ struct SessionDetailView: View {
                 // Speakers
                 ForEach(talk.speakerIDs, id: \.self) { speakerID in
                     NavigationLink(value: SpeakerNavigationID(value: speakerID)) {
-                        SpeakerRowView(speakerID: speakerID)
+                        HStack(spacing: 8) {
+                            SpeakerRowView(speakerID: speakerID)
+                            Spacer(minLength: 0)
+                            Image(systemName: "chevron.right")
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(.secondary)
+                                .accessibilityHidden(true)
+                        }
+                        .contentShape(.rect)
                     }
                     .buttonStyle(.plain)
                 }
@@ -81,6 +87,19 @@ struct SessionDetailView: View {
                     // detail screen without having to focus the toolbar star.
                     .keyboardShortcut("d", modifiers: .command)
             }
+        }
+    }
+
+    private var locationLinkLabel: some View {
+        HStack(spacing: 6) {
+            Label(viewModel.locationNameFrom(locationID: talk.locationID), systemImage: "mappin")
+                .labelStyle(.automatic)
+            Image(systemName: "chevron.right")
+                .font(.caption2.weight(.semibold))
+                .foregroundStyle(.primary)
+                .padding(5)
+                .glassEffect(.regular, in: .circle)
+                .accessibilityHidden(true)
         }
     }
 }
