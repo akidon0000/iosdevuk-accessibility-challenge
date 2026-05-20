@@ -34,18 +34,33 @@ struct ParallelTalkCardView: View {
     }
 
     var body: some View {
-        VStack() {
+        VStack(spacing: 0) {
+            session.sessionType.color
+                .frame(height: 4)
+                .accessibilityHidden(true)
+            HStack() {
+                if let iconName = session.sessionType.iconName {
+                    Image(systemName: iconName)
+                        .font(.subheadline)
+                        .foregroundStyle(session.sessionType.color)
+                        .accessibilityHidden(true)
+                }
+                Spacer()
+                FavouriteButtonView(talk: viewModel.talkFrom(talkID: talkID))
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .padding(.trailing, -13)
+                    .accessibilitySortPriority(0)
+            }
+            .padding(.horizontal)
             NavigationLink(value: TalkReference(talkID: talkID, session: session)) {
                 VStack(alignment: .leading, spacing: 0) {
-                    session.sessionType.color
-                        .frame(height: 4)
-                        .accessibilityHidden(true)
-
                     VStack(alignment: .leading) {
-                        Text(viewModel.talkTitleFrom(talkID: talkID))
-                            .bold()
-                            .font(.subheadline)
-                            .multilineTextAlignment(.leading)
+                        HStack(alignment: .firstTextBaseline, spacing: 6) {
+                            Text(viewModel.talkTitleFrom(talkID: talkID))
+                                .bold()
+                                .font(.subheadline)
+                                .multilineTextAlignment(.leading)
+                        }
                         Text(viewModel.speakersFrom(talkID: talkID))
                             .font(.caption)
                             .secondaryTextStyle()
@@ -54,7 +69,7 @@ struct ParallelTalkCardView: View {
                             .font(.caption)
                             .secondaryTextStyle()
                     }
-                    .padding([.top, .horizontal])
+                    .padding([.horizontal, .bottom])
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
 
@@ -62,10 +77,6 @@ struct ParallelTalkCardView: View {
             .accessibilityLabel(combinedAccessibilityLabel)
             .accessibilitySortPriority(1)
             .buttonStyle(.plain)
-
-            FavouriteButtonView(talk: viewModel.talkFrom(talkID: talkID))
-                .frame(maxWidth: .infinity, alignment: .trailing)
-                .accessibilitySortPriority(0)
         }
         .accessibilityElement(children: .contain)
         .background(session.sessionType.color.opacity(0.1), in: .rect(cornerRadius: 10))

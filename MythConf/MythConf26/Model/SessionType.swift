@@ -38,6 +38,19 @@ enum SessionType: Codable {
         }
     }
 
+    /// SF Symbol used to distinguish session kinds at a glance.
+    /// Workshop and talk share the same `.blue` colour, so the shape is what
+    /// differentiates them — supports "Differentiate Without Colour".
+    var iconName: String? {
+        switch self {
+        case .talk:           return "mic.fill"
+        case .workshop:       return "hammer.fill"
+        case .panel:          return "person.3.fill"
+        case .lightningtalks: return "bolt.fill"
+        default:              return nil
+        }
+    }
+
     var color: Color {
         switch self {
         case .talk:          return .blue
