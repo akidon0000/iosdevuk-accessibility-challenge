@@ -40,6 +40,7 @@ struct ProgrammeView: View {
                         }
                     }
                     .tabViewStyle(.page(indexDisplayMode: .never))
+                    .ignoresSafeArea(.container, edges: .bottom)
                 }
             }
             .overlay(alignment: .bottom) {
