@@ -39,6 +39,10 @@ struct SocialLinksView: View {
                     link.iconView(size: iconSize)
                     Text(link.displayName)
                         .lineLimit(1)
+                    Image(systemName: "arrow.up.right.square")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .accessibilityHidden(true)
                 }
                 .font(.subheadline)
                 .padding(.vertical, 8)
@@ -46,6 +50,7 @@ struct SocialLinksView: View {
             }
             .contentShape(.rect)
             .accessibilityLabel(link.accessibilityLabel)
+            .accessibilityHint(Text("Opens in browser", comment: "VoiceOver hint for social links that leave the app and open the URL in Safari or the corresponding native app."))
             .accessibilityInputLabels(link.inputLabels)
         }
     }
