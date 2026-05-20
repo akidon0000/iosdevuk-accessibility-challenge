@@ -8,6 +8,9 @@ import SwiftUI
 /// A scrollable list of all time slots for a single conference day.
 struct DayScheduleView: View {
     let sessions: [Session]
+    /// Extra bottom padding so the floating countdown banner above the tab
+    /// bar doesn't cover the last row.
+    var bottomInset: CGFloat = 0
 
     var body: some View {
         ScrollView {
@@ -21,6 +24,7 @@ struct DayScheduleView: View {
                     Divider()
                 }
             }
+            .padding(.bottom, bottomInset)
         }
     }
 }

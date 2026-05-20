@@ -10,11 +10,15 @@ struct ProgrammeView: View {
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     @Environment(\.locale) private var locale
     @State private var selectedDayIndex = 0
+    @State private var isShowingDateOverrideSheet = false
+    @State private var bannerHeight: CGFloat = 0
+    @State private var navigationPath = NavigationPath()
+    private let dateOverride = DateOverride.shared
 
     private var days: [[Session]] { viewModel.confData.sessions }
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             VStack(spacing: 0) {
                 Picker("Conference day", selection: $selectedDayIndex) {
                     ForEach(days.indices, id: \.self) { index in
@@ -31,22 +35,47 @@ struct ProgrammeView: View {
                 if !days.isEmpty {
                     TabView(selection: $selectedDayIndex) {
                         ForEach(days.indices, id: \.self) { index in
-                            DayScheduleView(sessions: days[index])
+                            DayScheduleView(sessions: days[index], bottomInset: bannerHeight)
                                 .tag(index)
                         }
                     }
                     .tabViewStyle(.page(indexDisplayMode: .never))
                 }
             }
+            .overlay(alignment: .bottom) {
+                ProgrammeCountdownBanner(
+                    dateOverride: dateOverride,
+                    onTapCurrent: { reference in
+                        if let reference {
+                            navigationPath.append(reference)
+                        } else {
+                            isShowingDateOverrideSheet = true
+                        }
+                    },
+                    onOpenDebug: { isShowingDateOverrideSheet = true }
+                )
+                .background {
+                    GeometryReader { proxy in
+                        Color.clear
+                            .preference(key: ProgrammeBannerHeightKey.self, value: proxy.size.height)
+                    }
+                }
+            }
+            .onPreferenceChange(ProgrammeBannerHeightKey.self) { newValue in
+                bannerHeight = newValue
+            }
+            .sheet(isPresented: $isShowingDateOverrideSheet) {
+                DebugDateOverrideSheet(dateOverride: dateOverride)
+            }
             .navigationTitle("MythConf 2026")
             .navigationBarTitleDisplayMode(.inline)
             .landscapeHidesNavigationBar(verticalSizeClass: verticalSizeClass)
             .onAppear {
-                let confTimeType = viewModel.confData.whereInConf()
+                let confTimeType = viewModel.confData.whereInConf(now: dateOverride.now)
                 guard confTimeType != .beforeConf, confTimeType != .afterConf else { return }
                 if let todayIndex = days.firstIndex(where: { sessions in
                     guard let first = sessions.first else { return false }
-                    return Calendar.current.isDateInToday(first.startTime)
+                    return Calendar.current.isDate(dateOverride.now, inSameDayAs: first.startTime)
                 }) {
                     selectedDayIndex = todayIndex
                 }
