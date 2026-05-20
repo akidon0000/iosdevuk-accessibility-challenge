@@ -58,8 +58,8 @@ struct ProgrammeView: View {
 
     private func dayLabel(for sessions: [Session]) -> String {
         guard let first = sessions.first else { return "" }
-        let day = first.startTime.formatted(.dateTime.day())
-        let weekday = first.startTime.formatted(.dateTime.weekday(.abbreviated))
+        let day = first.startTime.formatted(.dateTime.day().locale(locale))
+        let weekday = first.startTime.formatted(.dateTime.weekday(.abbreviated).locale(locale))
         return "\(day) \(weekday)"
     }
 
@@ -70,9 +70,9 @@ struct ProgrammeView: View {
     private func pickerInputLabels(for index: Int) -> [String] {
         let dayN = String(localized: "Day \(index + 1)")
         guard let first = days[index].first else { return [dayN] }
-        let weekdayFull = first.startTime.formatted(.dateTime.weekday(.wide))
-        let weekdayShort = first.startTime.formatted(.dateTime.weekday(.abbreviated))
-        let day = first.startTime.formatted(.dateTime.day())
+        let weekdayFull = first.startTime.formatted(.dateTime.weekday(.wide).locale(locale))
+        let weekdayShort = first.startTime.formatted(.dateTime.weekday(.abbreviated).locale(locale))
+        let day = first.startTime.formatted(.dateTime.day().locale(locale))
         // Combined "3 Thursday" / "3 Thu" matches the visible tab label so
         // Voice Control users can say what they see. Keep "Day N" and the
         // bare weekday as alternates for shorter spoken commands.
