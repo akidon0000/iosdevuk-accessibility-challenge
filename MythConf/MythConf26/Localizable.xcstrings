@@ -38,8 +38,44 @@
         }
       }
     },
-    "%lld days to go" : {
-      "comment" : "Programme banner subtitle showing how many days remain until the conference starts."
+    "%lld days until MythConf" : {
+      "comment" : "Programme banner subtitle showing how many days remain until the conference starts. Plural-aware: '1 day until MythConf' / 'N days until MythConf'.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@count@"
+          },
+          "substitutions" : {
+            "count" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg day until MythConf"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg days until MythConf"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MythConfまであと%lld日"
+          }
+        }
+      }
     },
     "%lld session from %@ to %@" : {
       "localizations" : {

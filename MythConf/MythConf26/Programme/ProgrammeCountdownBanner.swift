@@ -248,7 +248,7 @@ struct ProgrammeCountdownBanner: View {
             if days <= 0 {
                 return String(localized: "Starting soon", comment: "Programme banner subtitle when the conference begins later today.")
             }
-            return String(localized: "\(days) days to go", comment: "Programme banner subtitle showing how many days remain until the conference starts.")
+            return String(localized: "\(days) days until MythConf", comment: "Programme banner subtitle showing how many days remain until the conference starts. Plural-aware: '1 day until MythConf' / 'N days until MythConf'.")
         case .afterConf:
             return String(localized: "Thanks for joining — see you in 2027", comment: "Programme banner subtitle after the conference has ended.")
         case .beforeConfDayStart, .duringConfDay, .afterConfDayEnd:
