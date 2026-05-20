@@ -25,6 +25,7 @@ struct ProgrammeBannerHeightKey: PreferenceKey {
 struct ProgrammeCountdownBanner: View {
     @Environment(ViewModel.self) private var viewModel
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.locale) private var locale
     let dateOverride: DateOverride
     let onTapCurrent: (TalkReference?) -> Void
     let onOpenDebug: () -> Void
@@ -125,6 +126,10 @@ struct ProgrammeCountdownBanner: View {
     private var primaryTitleText: String {
         if let talk = displayedTalk {
             return talk.talkTitle
+        }
+        if let day = currentConfDay {
+            let dateString = day.startDate.formatted(.dateTime.month().day().weekday(.wide).locale(locale))
+            return String(localized: "Day \(day.number) · \(dateString)", comment: "Programme banner title on a conference day when no specific talk is currently happening — shows the day number plus locale-formatted date and weekday.")
         }
         return "MythConf 2026"
     }
@@ -249,10 +254,7 @@ struct ProgrammeCountdownBanner: View {
             if let session = currentSession, !session.containsTalk {
                 return String(localized: "Now: \(session.sessionType.displayName)", comment: "Programme banner subtitle showing the name of the current non-talk session (e.g. lunch, registration).")
             }
-            if let dayNumber = currentConfDayNumber {
-                return String(localized: "Happening now · Day \(dayNumber)", comment: "Programme banner subtitle on a conference day, showing which day of the conference it is.")
-            }
-            return String(localized: "Happening now", comment: "Programme banner subtitle on a conference day when the day number is unavailable.")
+            return String(localized: "Happening now", comment: "Programme banner subtitle on a conference day when no specific session is currently running. Day number/date now lives in the title.")
         case .dummy:
             return String(localized: "iOSDevUK", comment: "Programme banner fallback subtitle when conference dates aren't available.")
         }
@@ -276,7 +278,7 @@ struct ProgrammeCountdownBanner: View {
             let speakers = viewModel.speakersFrom(talkID: talk.id)
             return String(localized: "Now: \(talk.talkTitle), by \(speakers)", comment: "VoiceOver label for the Programme banner during a single-talk slot.")
         }
-        return "MythConf 2026, \(secondaryText)"
+        return "\(primaryTitleText), \(secondaryText)"
     }
 
     private var accessibilityHintText: Text {
@@ -304,12 +306,12 @@ struct ProgrammeCountdownBanner: View {
         return cal.dateComponents([.day], from: nowDay, to: startDay).day ?? 0
     }
 
-    private var currentConfDayNumber: Int? {
+    private var currentConfDay: (number: Int, startDate: Date)? {
         let cal = Calendar.current
         for (idx, daySessions) in viewModel.confData.sessions.enumerated() {
             guard let first = daySessions.first else { continue }
             if cal.isDate(now, inSameDayAs: first.startTime) {
-                return idx + 1
+                return (idx + 1, first.startTime)
             }
         }
         return nil

@@ -207,6 +207,17 @@
         }
       }
     },
+    "Day %lld · %@" : {
+      "comment" : "Programme banner title on a conference day when no specific talk is currently happening — shows the day number plus locale-formatted date and weekday.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Day %1$lld · %2$@"
+          }
+        }
+      }
+    },
     "Day %lld, %@" : {
       "localizations" : {
         "ja" : {
@@ -350,10 +361,7 @@
       }
     },
     "Happening now" : {
-      "comment" : "Programme banner subtitle on a conference day when the day number is unavailable."
-    },
-    "Happening now · Day %lld" : {
-      "comment" : "Programme banner subtitle on a conference day, showing which day of the conference it is."
+      "comment" : "Programme banner subtitle on a conference day when no specific session is currently running. Day number/date now lives in the title."
     },
     "iOSDevUK" : {
       "comment" : "Programme banner fallback subtitle when conference dates aren't available."
