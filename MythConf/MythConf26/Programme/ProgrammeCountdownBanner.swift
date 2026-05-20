@@ -31,7 +31,7 @@ struct ProgrammeCountdownBanner: View {
 
     @State private var cycleIndex: Int = 0
 
-    @State private var cycleTimer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
+    @State private var cycleTimer = Timer.publish(every: 8, on: .main, in: .common).autoconnect()
 
     private var now: Date { dateOverride.now }
 
@@ -61,45 +61,36 @@ struct ProgrammeCountdownBanner: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            Image(systemName: iconName)
-                .font(.title3)
-                .foregroundStyle(iconColor)
-                .accessibilityHidden(true)
+            leadingIcon
             VStack(alignment: .leading, spacing: 2) {
-                Text("MythConf 2026")
-                    .font(.headline)
-                Text(secondaryText)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(2)
-                    .multilineTextAlignment(.leading)
-                    .id(secondaryText)
-                    .transition(.opacity)
+                ZStack(alignment: .leading) {
+                    titleView
+                        .id(primaryTitleText)
+                        .transition(parallelFadeTransition)
+                }
+                ZStack(alignment: .leading) {
+                    Text(primarySubtitleText)
+                        .font(.subheadline)
+                        .foregroundStyle(.primary)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                        .id(primarySubtitleText)
+                        .transition(parallelFadeTransition)
+                }
             }
             Spacer(minLength: 0)
-            if dateOverride.isOverriding {
-                Image(systemName: "clock.badge.exclamationmark")
-                    .font(.footnote)
-                    .foregroundStyle(.orange)
-                    .accessibilityLabel(Text("Date override active"))
-            }
             if currentTalkReference != nil {
                 Image(systemName: "chevron.right")
                     .font(.caption.weight(.semibold))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.primary)
                     .accessibilityHidden(true)
             }
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.regularMaterial, in: .rect(cornerRadius: 14))
-        .overlay {
-            RoundedRectangle(cornerRadius: 14)
-                .stroke(Color.primary.opacity(0.08), lineWidth: 0.5)
-        }
-        .shadow(color: Color.black.opacity(0.12), radius: 8, x: 0, y: 2)
-        .contentShape(.rect(cornerRadius: 14))
+        .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 22))
+        .contentShape(.rect(cornerRadius: 22))
         .onTapGesture {
             onTapCurrent(currentTalkReference)
         }
@@ -125,20 +116,91 @@ struct ProgrammeCountdownBanner: View {
         }
     }
 
+    // MARK: - Primary title / subtitle
+
+    private var isShowingTalk: Bool {
+        displayedTalk != nil
+    }
+
+    private var primaryTitleText: String {
+        if let talk = displayedTalk {
+            return talk.talkTitle
+        }
+        return "MythConf 2026"
+    }
+
+    private var primarySubtitleText: String {
+        if let talk = displayedTalk {
+            return viewModel.speakersFrom(talkID: talk.id)
+        }
+        return secondaryText
+    }
+
+    @ViewBuilder
+    private var titleView: some View {
+        if isShowingTalk {
+            MarqueeText(text: primaryTitleText, font: .headline.weight(.bold))
+                .foregroundStyle(.primary)
+        } else {
+            Text(primaryTitleText)
+                .font(.headline.weight(.bold))
+                .foregroundStyle(.primary)
+                .lineLimit(1)
+                .truncationMode(.tail)
+        }
+    }
+
     // MARK: - Cycle
 
     private func advanceCycleIfNeeded() {
         let count = currentTalks.count
         guard !reduceMotion, count > 1 else { return }
-        withAnimation(.easeInOut(duration: 0.25)) {
+        withAnimation {
             cycleIndex = (cycleIndex + 1) % count
         }
+    }
+
+    /// Sequential crossfade used when cycling between parallel talks: the
+    /// outgoing text fades out, then the incoming text fades in. The
+    /// transition only fires inside `advanceCycleIfNeeded`, so single-talk
+    /// slots and session-boundary changes stay instantaneous.
+    private var parallelFadeTransition: AnyTransition {
+        .asymmetric(
+            insertion: .opacity.animation(.easeIn(duration: 0.5).delay(0.5)),
+            removal: .opacity.animation(.easeOut(duration: 0.5))
+        )
+    }
+
+    // MARK: - Leading icon
+
+    @ViewBuilder
+    private var leadingIcon: some View {
+        ZStack(alignment: .topTrailing) {
+            Image(systemName: iconName)
+                .font(.title3)
+                .foregroundStyle(iconColor)
+            if currentTalks.count > 1, let badgeSymbol = parallelBadgeSymbol {
+                Image(systemName: badgeSymbol)
+                    .font(.caption2.bold())
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.white, .red)
+                    .offset(x: 6, y: -6)
+            }
+        }
+        .accessibilityHidden(true)
+    }
+
+    /// SF Symbol name for the current cycle index as a filled circle ("1.circle.fill",
+    /// "2.circle.fill", …). Returns nil if the count is out of range.
+    private var parallelBadgeSymbol: String? {
+        let n = (cycleIndex % max(1, currentTalks.count)) + 1
+        guard n >= 0, n <= 50 else { return nil }
+        return "\(n).circle.fill"
     }
 
     // MARK: - State-driven content
 
     private var iconName: String {
-        if currentTalks.count > 1 { return "person.2.fill" }
         if let session = currentSession {
             if let typed = session.sessionType.iconName { return typed }
             switch session.sessionType {
@@ -184,21 +246,8 @@ struct ProgrammeCountdownBanner: View {
         case .afterConf:
             return String(localized: "Thanks for joining — see you in 2027", comment: "Programme banner subtitle after the conference has ended.")
         case .beforeConfDayStart, .duringConfDay, .afterConfDayEnd:
-            if let session = currentSession {
-                if session.containsTalk {
-                    let talks = currentTalks
-                    if talks.count > 1 {
-                        if reduceMotion {
-                            return String(localized: "Now · \(talks.count) parallel talks", comment: "Programme banner subtitle when multiple talks run in parallel and Reduce Motion is on.")
-                        } else if let talk = displayedTalk {
-                            return String(localized: "Now: \(talk.talkTitle)", comment: "Programme banner subtitle showing the title of the talk currently being cycled through.")
-                        }
-                    } else if let talk = talks.first {
-                        return String(localized: "Now: \(talk.talkTitle)", comment: "Programme banner subtitle showing the title of the talk currently happening.")
-                    }
-                } else {
-                    return String(localized: "Now: \(session.sessionType.displayName)", comment: "Programme banner subtitle showing the name of the current non-talk session (e.g. lunch, registration).")
-                }
+            if let session = currentSession, !session.containsTalk {
+                return String(localized: "Now: \(session.sessionType.displayName)", comment: "Programme banner subtitle showing the name of the current non-talk session (e.g. lunch, registration).")
             }
             if let dayNumber = currentConfDayNumber {
                 return String(localized: "Happening now · Day \(dayNumber)", comment: "Programme banner subtitle on a conference day, showing which day of the conference it is.")
@@ -211,24 +260,23 @@ struct ProgrammeCountdownBanner: View {
 
     // MARK: - Accessibility
 
-    /// For VoiceOver during a parallel slot we read *all* talk titles, not
-    /// just the one currently being cycled — so the user gets the complete
-    /// picture in a single utterance instead of having to wait through the
-    /// cycle.
+    /// For VoiceOver during a parallel slot we read *all* talk titles + their
+    /// speakers, not just the one currently being cycled — so the user gets
+    /// the complete picture in a single utterance instead of having to wait
+    /// through the cycle / read the marquee.
     private var combinedAccessibilityLabel: String {
-        switch confTimeType {
-        case .beforeConfDayStart, .duringConfDay, .afterConfDayEnd:
-            if let session = currentSession, session.containsTalk {
-                let talks = currentTalks
-                if talks.count > 1 {
-                    let titles = talks.map(\.talkTitle).joined(separator: ", ")
-                    return String(localized: "MythConf 2026, now: \(talks.count) parallel talks: \(titles)", comment: "VoiceOver label for the Programme banner during a parallel slot, listing every running talk title.")
-                }
-            }
-            return "MythConf 2026, \(secondaryText)"
-        default:
-            return "MythConf 2026, \(secondaryText)"
+        let talks = currentTalks
+        if talks.count > 1 {
+            let items = talks.map { talk in
+                "\(talk.talkTitle), by \(viewModel.speakersFrom(talkID: talk.id))"
+            }.joined(separator: "; ")
+            return String(localized: "Now: \(talks.count) parallel talks: \(items)", comment: "VoiceOver label for the Programme banner during a parallel slot, listing every running talk and its speakers.")
         }
+        if let talk = talks.first {
+            let speakers = viewModel.speakersFrom(talkID: talk.id)
+            return String(localized: "Now: \(talk.talkTitle), by \(speakers)", comment: "VoiceOver label for the Programme banner during a single-talk slot.")
+        }
+        return "MythConf 2026, \(secondaryText)"
     }
 
     private var accessibilityHintText: Text {
