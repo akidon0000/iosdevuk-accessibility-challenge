@@ -17,10 +17,20 @@ struct ParallelTalkCardView: View {
         let title = viewModel.talkTitleFrom(talkID: talkID)
         let speakers = viewModel.speakersFrom(talkID: talkID)
         let location = viewModel.locationNameFrom(talkID: talkID)
-        if positionTotal > 1 {
-            return String(localized: "\(title), by \(speakers), at \(location), \(positionIndex + 1) of \(positionTotal)")
+        let kind: String
+        switch session.sessionType {
+        case .workshop:
+            kind = String(localized: "Workshop", comment: "VoiceOver announces this before a workshop's title so users know it's a workshop slot, not a talk.")
+        default:
+            kind = String(localized: "Session", comment: "VoiceOver announces this before a talk's title to clarify the kind of slot.")
         }
-        return String(localized: "\(title), by \(speakers), at \(location)")
+        let base: String
+        if positionTotal > 1 {
+            base = String(localized: "\(title), by \(speakers), at \(location), \(positionIndex + 1) of \(positionTotal)")
+        } else {
+            base = String(localized: "\(title), by \(speakers), at \(location)")
+        }
+        return "\(kind), \(base)"
     }
 
     var body: some View {
