@@ -21,12 +21,27 @@ struct MarqueeText: View {
     @State private var textSize: CGSize = .zero
 
     var body: some View {
-        GeometryReader { proxy in
-            content(containerWidth: proxy.size.width)
-        }
-        .frame(height: max(textSize.height, 1))
-        .background(measurement)
-        .accessibilityLabel(Text(text))
+        // Invisible Text anchors the view's height to the font's natural
+        // single-line height from the very first frame. Without it, a
+        // freshly inserted MarqueeText would start at 1pt (because
+        // `textSize` is .zero before `measurement` runs) and visibly grow
+        // once measurement reported back, producing a jumpy fade.
+        // `.frame(maxWidth: .infinity)` keeps the view greedy horizontally
+        // so the row width stays stable across cycles regardless of the
+        // current talk title's natural width.
+        Text(text)
+            .font(font)
+            .lineLimit(1)
+            .opacity(0)
+            .accessibilityHidden(true)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .overlay(alignment: .leading) {
+                GeometryReader { proxy in
+                    content(containerWidth: proxy.size.width)
+                }
+            }
+            .background(measurement)
+            .accessibilityLabel(Text(text))
     }
 
     @ViewBuilder
