@@ -32,6 +32,3 @@ google-services.json
 
 # Android Profiling
 *.hprof
-
-# Local-only PR submission draft (kept on disk for the contributor's notes)
-PR_JP_README.md
