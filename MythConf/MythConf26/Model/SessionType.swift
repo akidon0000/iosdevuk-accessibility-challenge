@@ -40,14 +40,22 @@ enum SessionType: Codable {
 
     /// SF Symbol used to distinguish session kinds at a glance.
     /// Workshop and talk share the same `.blue` colour, so the shape is what
-    /// differentiates them — supports "Differentiate Without Colour".
+    /// differentiates them — supports "Differentiate Without Colour". Break
+    /// kinds also get icons so non-talk rows aren't conveyed by colour alone.
     var iconName: String? {
         switch self {
         case .talk:           return "mic.fill"
         case .workshop:       return "hammer.fill"
         case .panel:          return "person.3.fill"
         case .lightningtalks: return "bolt.fill"
-        default:              return nil
+        case .teaBreak:       return "cup.and.saucer.fill"
+        case .lunch:          return "cup.and.saucer.fill"
+        case .dinner:         return "fork.knife"
+        case .confdinner:     return "fork.knife"
+        case .social:         return "bubbles.and.sparkles.fill"
+        case .registration:   return "person.badge.key.fill"
+        case .railtrip:       return "tram.fill"
+        case .dummy:          return nil
         }
     }
 

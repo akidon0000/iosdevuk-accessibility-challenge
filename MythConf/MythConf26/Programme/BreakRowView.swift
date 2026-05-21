@@ -9,6 +9,11 @@ import SwiftUI
 struct BreakRowView: View {
     @Environment(ViewModel.self) private var viewModel
     let session: Session
+    /// SF Symbols ship with non-uniform glyph widths (e.g. `cup.and.saucer.fill`
+    /// vs `tram.fill`), so a `.font(...)` modifier alone produces visibly
+    /// different icon sizes per break type. Locking each icon into a square
+    /// frame keeps them visually consistent and still scales with Dynamic Type.
+    @ScaledMetric private var iconSize: CGFloat = 22
 
     var body: some View {
         AStack(vAlignment: .leading) {
@@ -18,14 +23,24 @@ struct BreakRowView: View {
                 actsAsHeader: false
             )
 
-            VStack(alignment: .leading) {
-                Text(LocalizedStringKey(session.sessionType.displayName))
-                    .italic()
-                    .foregroundStyle(.primary)
-                if let talkID = session.contentIDs.first {
-                    Text(viewModel.locationNameFrom(talkID: talkID))
-                        .font(.caption)
-                        .secondaryTextStyle()
+            HStack(alignment: .center, spacing: 12) {
+                if let iconName = session.sessionType.iconName {
+                    Image(systemName: iconName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: iconSize, height: iconSize)
+                        .foregroundStyle(session.sessionType.color)
+                        .accessibilityHidden(true)
+                }
+                VStack(alignment: .leading) {
+                    Text(LocalizedStringKey(session.sessionType.displayName))
+                        .italic()
+                        .foregroundStyle(.primary)
+                    if let talkID = session.contentIDs.first {
+                        Text(viewModel.locationNameFrom(talkID: talkID))
+                            .font(.caption)
+                            .secondaryTextStyle()
+                    }
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)

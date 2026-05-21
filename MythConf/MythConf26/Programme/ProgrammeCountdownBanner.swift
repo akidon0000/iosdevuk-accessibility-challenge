@@ -218,16 +218,8 @@ struct ProgrammeCountdownBanner: View {
     // MARK: - State-driven content
 
     private var iconName: String {
-        if let session = currentSession {
-            if let typed = session.sessionType.iconName { return typed }
-            switch session.sessionType {
-            case .teaBreak, .lunch:                              return "cup.and.saucer.fill"
-            case .dinner, .confdinner:                           return "fork.knife"
-            case .social:                                        return "bubbles.and.sparkles.fill"
-            case .registration:                                  return "person.badge.key.fill"
-            case .railtrip:                                      return "tram.fill"
-            default:                                             break
-            }
+        if let session = currentSession, let typed = session.sessionType.iconName {
+            return typed
         }
         switch confTimeType {
         case .beforeConf:                                             return "calendar"
