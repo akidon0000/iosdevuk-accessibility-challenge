@@ -9,10 +9,12 @@ struct ProgrammeView: View {
     @Environment(ViewModel.self) private var viewModel
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     @Environment(\.locale) private var locale
+    /// Owned by `HomeView` so the navigation stack survives the rotation-
+    /// triggered TabView rebuild (`.id(verticalSizeClass)`).
+    @Binding var navigationPath: NavigationPath
     @State private var selectedDayIndex = 0
     @State private var isShowingDateOverrideSheet = false
     @State private var bannerHeight: CGFloat = 0
-    @State private var navigationPath = NavigationPath()
     /// True only when the currently visible day's schedule has been scrolled
     /// to the bottom. Drives `.accessibilityHidden` on the countdown banner
     /// so VoiceOver focuses it last, after every session row.
@@ -143,6 +145,7 @@ struct ProgrammeView: View {
 }
 
 #Preview {
-    ProgrammeView()
+    @Previewable @State var path = NavigationPath()
+    ProgrammeView(navigationPath: $path)
         .environment(ViewModel())
 }

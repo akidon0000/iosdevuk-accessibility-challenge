@@ -9,9 +9,12 @@ struct MyScheduleView: View {
     @Environment(ViewModel.self) private var viewModel
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     @Environment(\.locale) private var locale
+    /// Owned by `HomeView` so the navigation stack survives the rotation-
+    /// triggered TabView rebuild (`.id(verticalSizeClass)`).
+    @Binding var navigationPath: NavigationPath
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             Group {
                 if viewModel.favouriteIds.isEmpty {
                     ContentUnavailableView {
@@ -68,6 +71,7 @@ struct MyScheduleView: View {
 }
 
 #Preview {
-    MyScheduleView()
+    @Previewable @State var path = NavigationPath()
+    MyScheduleView(navigationPath: $path)
         .environment(ViewModel())
 }

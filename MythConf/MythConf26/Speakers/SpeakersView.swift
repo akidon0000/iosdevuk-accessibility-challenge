@@ -7,6 +7,9 @@ import SwiftUI
 
 struct SpeakersView: View {
     @Environment(ViewModel.self) private var viewModel
+    /// Owned by `HomeView` so the navigation stack survives the rotation-
+    /// triggered TabView rebuild (`.id(verticalSizeClass)`).
+    @Binding var navigationPath: NavigationPath
     @State private var searchText = ""
     @State private var isSearchFocused = false
 
@@ -17,7 +20,7 @@ struct SpeakersView: View {
     }
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             List(filteredSpeakers) { speaker in
                 NavigationLink(value: SpeakerNavigationID(value: speaker.id)) {
                     SpeakerRowView(speakerID: speaker.id)
@@ -50,6 +53,7 @@ struct SpeakersView: View {
 }
 
 #Preview {
-    SpeakersView()
+    @Previewable @State var path = NavigationPath()
+    SpeakersView(navigationPath: $path)
         .environment(ViewModel())
 }
