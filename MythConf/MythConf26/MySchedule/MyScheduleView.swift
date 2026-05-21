@@ -7,7 +7,6 @@ import SwiftUI
 
 struct MyScheduleView: View {
     @Environment(ViewModel.self) private var viewModel
-    @Environment(\.verticalSizeClass) private var verticalSizeClass
     @Environment(\.locale) private var locale
     /// Owned by `HomeView` so the navigation stack survives the rotation-
     /// triggered TabView rebuild (`.id(verticalSizeClass)`).
@@ -55,7 +54,6 @@ struct MyScheduleView: View {
                     }
                 }
             }
-            .landscapeHidesNavigationBar(verticalSizeClass: verticalSizeClass)
             .conferenceNavigationDestinations()
             .languageToggleToolbar()
             .navigationTitle("My Schedule")

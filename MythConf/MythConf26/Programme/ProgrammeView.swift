@@ -23,6 +23,13 @@ struct ProgrammeView: View {
 
     private var days: [[Session]] { viewModel.confData.sessions }
 
+    /// Banner is suppressed in landscape (compact height) so the schedule
+    /// gets the full screen — Programme is the densest tab and the banner
+    /// otherwise stacks on top of already-cramped rows.
+    private var isBannerVisible: Bool {
+        verticalSizeClass != .compact
+    }
+
     var body: some View {
         NavigationStack(path: $navigationPath) {
             VStack(spacing: 0) {
@@ -43,7 +50,7 @@ struct ProgrammeView: View {
                         ForEach(days.indices, id: \.self) { index in
                             DayScheduleView(
                                 sessions: days[index],
-                                bottomInset: bannerHeight,
+                                bottomInset: isBannerVisible ? bannerHeight : 0,
                                 onScrolledToBottomChange: { isAtBottom in
                                     guard index == selectedDayIndex else { return }
                                     scrolledToBottom = isAtBottom
@@ -57,21 +64,23 @@ struct ProgrammeView: View {
                 }
             }
             .overlay(alignment: .bottom) {
-                ProgrammeCountdownBanner(
-                    dateOverride: dateOverride,
-                    onTapCurrent: { reference in
-                        if let reference {
-                            navigationPath.append(reference)
+                if isBannerVisible {
+                    ProgrammeCountdownBanner(
+                        dateOverride: dateOverride,
+                        onTapCurrent: { reference in
+                            if let reference {
+                                navigationPath.append(reference)
+                            }
+                        }
+                    )
+                    .background {
+                        GeometryReader { proxy in
+                            Color.clear
+                                .preference(key: ProgrammeBannerHeightKey.self, value: proxy.size.height)
                         }
                     }
-                )
-                .background {
-                    GeometryReader { proxy in
-                        Color.clear
-                            .preference(key: ProgrammeBannerHeightKey.self, value: proxy.size.height)
-                    }
+                    .accessibilityHidden(!scrolledToBottom)
                 }
-                .accessibilityHidden(!scrolledToBottom)
             }
             .onPreferenceChange(ProgrammeBannerHeightKey.self) { newValue in
                 bannerHeight = newValue
