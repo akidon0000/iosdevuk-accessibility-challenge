@@ -13,6 +13,10 @@ struct ProgrammeView: View {
     @State private var isShowingDateOverrideSheet = false
     @State private var bannerHeight: CGFloat = 0
     @State private var navigationPath = NavigationPath()
+    /// True only when the currently visible day's schedule has been scrolled
+    /// to the bottom. Drives `.accessibilityHidden` on the countdown banner
+    /// so VoiceOver focuses it last, after every session row.
+    @State private var scrolledToBottom = false
     private let dateOverride = DateOverride.shared
 
     private var days: [[Session]] { viewModel.confData.sessions }
@@ -35,8 +39,15 @@ struct ProgrammeView: View {
                 if !days.isEmpty {
                     TabView(selection: $selectedDayIndex) {
                         ForEach(days.indices, id: \.self) { index in
-                            DayScheduleView(sessions: days[index], bottomInset: bannerHeight)
-                                .tag(index)
+                            DayScheduleView(
+                                sessions: days[index],
+                                bottomInset: bannerHeight,
+                                onScrolledToBottomChange: { isAtBottom in
+                                    guard index == selectedDayIndex else { return }
+                                    scrolledToBottom = isAtBottom
+                                }
+                            )
+                            .tag(index)
                         }
                     }
                     .tabViewStyle(.page(indexDisplayMode: .never))
@@ -61,9 +72,13 @@ struct ProgrammeView: View {
                             .preference(key: ProgrammeBannerHeightKey.self, value: proxy.size.height)
                     }
                 }
+                .accessibilityHidden(!scrolledToBottom)
             }
             .onPreferenceChange(ProgrammeBannerHeightKey.self) { newValue in
                 bannerHeight = newValue
+            }
+            .onChange(of: selectedDayIndex) { _, _ in
+                scrolledToBottom = false
             }
             .sheet(isPresented: $isShowingDateOverrideSheet) {
                 DebugDateOverrideSheet(dateOverride: dateOverride)
