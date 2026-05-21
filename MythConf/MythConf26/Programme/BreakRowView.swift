@@ -41,8 +41,8 @@ struct BreakRowView: View {
     }
 
     private var accessibilityDescription: String {
-        let start = session.startTimeText.spokenTime
-        let end = session.endTimeText.spokenTime
+        let start = session.startTimeText
+        let end = session.endTimeText
         let typeName = String(localized: String.LocalizationValue(session.sessionType.displayName))
         if let talkID = session.contentIDs.first {
             let location = viewModel.locationNameFrom(talkID: talkID)

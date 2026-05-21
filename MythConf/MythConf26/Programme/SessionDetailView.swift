@@ -30,7 +30,7 @@ struct SessionDetailView: View {
                 ViewThatFits(in: .horizontal) {
                     HStack {
                         Label(session.timeRange, systemImage: "clock")
-                            .accessibilityLabel(Text("From \(session.startTimeText.spokenTime) to \(session.endTimeText.spokenTime)"))
+                            .accessibilityLabel(Text("From \(session.startTimeText) to \(session.endTimeText)"))
                         Spacer()
                         NavigationLink(value: LocationNavigationID(value: talk.locationID)) {
                             locationLinkLabel
@@ -38,7 +38,7 @@ struct SessionDetailView: View {
                     }
                     VStack(alignment: .leading) {
                         Label(session.timeRange, systemImage: "clock")
-                            .accessibilityLabel(Text("From \(session.startTimeText.spokenTime) to \(session.endTimeText.spokenTime)"))
+                            .accessibilityLabel(Text("From \(session.startTimeText) to \(session.endTimeText)"))
                         NavigationLink(value: LocationNavigationID(value: talk.locationID)) {
                             locationLinkLabel
                         }
