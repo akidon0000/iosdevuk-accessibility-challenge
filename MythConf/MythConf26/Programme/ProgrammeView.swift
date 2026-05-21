@@ -60,11 +60,8 @@ struct ProgrammeView: View {
                     onTapCurrent: { reference in
                         if let reference {
                             navigationPath.append(reference)
-                        } else {
-                            isShowingDateOverrideSheet = true
                         }
-                    },
-                    onOpenDebug: { isShowingDateOverrideSheet = true }
+                    }
                 )
                 .background {
                     GeometryReader { proxy in
@@ -85,6 +82,20 @@ struct ProgrammeView: View {
             }
             .navigationTitle("MythConf 2026")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("MythConf 2026")
+                        .font(.headline)
+                        .contentShape(.rect)
+                        .onLongPressGesture(minimumDuration: 0.5) {
+                            isShowingDateOverrideSheet = true
+                        }
+                        .accessibilityAddTraits(.isHeader)
+                        .accessibilityAction(named: Text("Open date override")) {
+                            isShowingDateOverrideSheet = true
+                        }
+                }
+            }
             .landscapeHidesNavigationBar(verticalSizeClass: verticalSizeClass)
             .onAppear {
                 let confTimeType = viewModel.confData.whereInConf(now: dateOverride.now)

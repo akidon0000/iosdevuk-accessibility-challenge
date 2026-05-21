@@ -28,7 +28,6 @@ struct ProgrammeCountdownBanner: View {
     @Environment(\.locale) private var locale
     let dateOverride: DateOverride
     let onTapCurrent: (TalkReference?) -> Void
-    let onOpenDebug: () -> Void
 
     @State private var cycleIndex: Int = 0
 
@@ -61,6 +60,43 @@ struct ProgrammeCountdownBanner: View {
     }
 
     var body: some View {
+        bannerContent
+            .onReceive(cycleTimer) { _ in
+                advanceCycleIfNeeded()
+            }
+            .onChange(of: currentSession?.id) { _, _ in
+                cycleIndex = 0
+            }
+            .padding(.horizontal, 12)
+            .padding(.top, 8)
+            .padding(.bottom, 8)
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(combinedAccessibilityLabel)
+            .accessibilityHint(accessibilityHintText)
+            .accessibilityAddTraits(currentTalkReference != nil ? .isButton : [])
+            .accessibilityInputLabels(accessibilityInputLabels)
+    }
+
+    /// Renders the banner with tap-related modifiers (`.onTapGesture`,
+    /// interactive `glassEffect`) only when there's a session to navigate to.
+    /// Otherwise SwiftUI still treats the view as interactive and VoiceOver
+    /// announces "button" even with no `.isButton` trait added.
+    @ViewBuilder
+    private var bannerContent: some View {
+        if currentTalkReference != nil {
+            bannerCore
+                .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 22))
+                .contentShape(.rect(cornerRadius: 22))
+                .onTapGesture {
+                    onTapCurrent(currentTalkReference)
+                }
+        } else {
+            bannerCore
+                .glassEffect(.regular, in: .rect(cornerRadius: 22))
+        }
+    }
+
+    private var bannerCore: some View {
         HStack(spacing: 12) {
             leadingIcon
             VStack(alignment: .leading, spacing: 2) {
@@ -91,31 +127,6 @@ struct ProgrammeCountdownBanner: View {
         .padding(.vertical, 12)
         .frame(maxWidth: .infinity, alignment: .leading)
         .dynamicTypeSize(...DynamicTypeSize.large)
-        .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 22))
-        .contentShape(.rect(cornerRadius: 22))
-        .onTapGesture {
-            onTapCurrent(currentTalkReference)
-        }
-        .onLongPressGesture(minimumDuration: 0.5) {
-            onOpenDebug()
-        }
-        .onReceive(cycleTimer) { _ in
-            advanceCycleIfNeeded()
-        }
-        .onChange(of: currentSession?.id) { _, _ in
-            cycleIndex = 0
-        }
-        .padding(.horizontal, 12)
-        .padding(.top, 8)
-        .padding(.bottom, 8)
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel(combinedAccessibilityLabel)
-        .accessibilityHint(accessibilityHintText)
-        .accessibilityAddTraits(.isButton)
-        .accessibilityInputLabels(accessibilityInputLabels)
-        .accessibilityAction(named: Text("Open date override")) {
-            onOpenDebug()
-        }
     }
 
     // MARK: - Primary title / subtitle
@@ -284,13 +295,13 @@ struct ProgrammeCountdownBanner: View {
 
     private var accessibilityHintText: Text {
         if currentTalkReference != nil {
-            return Text("Opens the current session. Use Open date override for the debug controls.", comment: "VoiceOver hint when the banner is tappable into a session detail.")
+            return Text("Opens the current session.", comment: "VoiceOver hint when the banner is tappable into a session detail.")
         }
-        return Text("Use Open date override for the debug controls.", comment: "VoiceOver hint when the banner only exposes the debug action.")
+        return Text("")
     }
 
     private var accessibilityInputLabels: [String] {
-        var labels = ["MythConf countdown", "Countdown", "Date override"]
+        var labels = ["MythConf countdown", "Countdown"]
         if currentTalkReference != nil {
             labels.insert(contentsOf: ["Current session", "Open current talk", "Now playing"], at: 0)
         }

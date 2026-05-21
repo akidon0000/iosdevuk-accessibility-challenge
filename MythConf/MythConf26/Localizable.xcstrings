@@ -561,7 +561,7 @@
     "Opens in browser" : {
       "comment" : "VoiceOver hint for social links that leave the app and open the URL in Safari or the corresponding native app."
     },
-    "Opens the current session. Use Open date override for the debug controls." : {
+    "Opens the current session." : {
       "comment" : "VoiceOver hint when the banner is tappable into a session detail."
     },
     "Outside known days" : {
@@ -797,9 +797,6 @@
           }
         }
       }
-    },
-    "Use Open date override for the debug controls." : {
-      "comment" : "VoiceOver hint when the banner only exposes the debug action."
     },
     "Website, %@" : {
       "localizations" : {
