@@ -64,9 +64,9 @@ enum SessionType: Codable {
         case .talk:          return .blue
         case .panel:         return .purple
         case .workshop:      return .blue
-        case .lightningtalks: return .yellow
+        case .lightningtalks: return Self.lightningTalksAccent
         case .teaBreak:      return .green
-        case .lunch:         return .mint
+        case .lunch:         return Self.lunchAccent
         case .dinner:        return .pink
         case .confdinner:    return .pink
         case .social:        return .teal
@@ -75,4 +75,15 @@ enum SessionType: Codable {
         case .dummy:         return .clear
         }
     }
+
+    /// System `.yellow` (≈#FFCC02) lands around 1.5:1 against white, well
+    /// below WCAG AA's 3:1 for icons / large text. This darker amber clears
+    /// AA against the card's white background while staying recognisably
+    /// "Lightning"-yellow.
+    private static let lightningTalksAccent = Color(red: 0.76, green: 0.54, blue: 0.04)
+
+    /// System `.mint` (≈#00C7BE) only reaches ~2.4:1 against white. This
+    /// slightly desaturated teal-mint clears AA for the icon / top stripe
+    /// while still reading as the "Lunch" accent in tint backgrounds.
+    private static let lunchAccent = Color(red: 0.02, green: 0.60, blue: 0.54)
 }
